@@ -27,12 +27,16 @@
 </head>
 <body>
 <!-- Devis en ligne de Studio Devis, en plein écran sans le bandeau Google.
-     Lien envoyé au client : https://sejour.vidigalriotour.com/?n=VRT-2026-2302-3&t=XXXXXXXXXX -->
+     Lien envoyé au client : https://sejour.vidigalriotour.com/?VRT-2026-2302-3.XXXXXXXXXX (ancien format ?n=…&t=… accepté) -->
 <iframe id="devis" class="cache" title="Votre devis Vidigal RIO Tour" allow="clipboard-write"></iframe>
 <p class="msg" id="msg">Ouverture de votre devis…</p>
 <script>
   var APP = 'https://script.google.com/macros/s/AKfycbxeyKjx23vcqD-TznZmXY7iJRazkMO6igeKWf1zziFY--8cTFnFez0k9Uw1tJbNmD6KFw/exec';
   var q = new URLSearchParams(location.search), n = q.get('n') || q.get('devis'), t = q.get('t');
+  if (!n) {   // lien court : sejour.vidigalriotour.com/?VRT-2026-2302-3.QJ_TDTMFis
+    var m = decodeURIComponent(location.search.slice(1) || location.hash.slice(1)).match(/^([A-Za-z0-9-]+)\.([\w-]{10,})$/);
+    if (m) { n = m[1]; t = m[2]; }
+  }
   if (n && t) {
     var f = document.getElementById('devis');
     f.src = APP + '?n=' + encodeURIComponent(n) + '&t=' + encodeURIComponent(t);
