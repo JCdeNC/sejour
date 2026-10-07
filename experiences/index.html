@@ -69,6 +69,7 @@
   .photo{position:relative;aspect-ratio:4/3;background:var(--sable)}
   .photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .35s}
   .photo img.ok{opacity:1}
+  .photo .vide[hidden]{display:none}
   .photo .vide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:600;color:rgba(53,10,7,.35);font-size:14px;text-align:center;padding:20px}
   .etiq{position:absolute;left:12px;top:12px;background:rgba(255,255,255,.93);color:var(--brun);font-size:11.5px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;padding:4px 10px;border-radius:999px}
   .coche{position:absolute;right:12px;top:12px;width:34px;height:34px;border-radius:50%;background:var(--orange);color:#fff;display:none;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2)}
@@ -79,6 +80,45 @@
   .infos{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px}
   .infos span{font-size:12px;background:var(--fond);border-radius:8px;padding:3px 9px;color:var(--gris)}
   .desc{margin:0 0 10px;text-align:justify;hyphens:auto;-webkit-hyphens:auto}
+  .grille .desc{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+  .carte .photo{cursor:pointer}
+  .titre-btn{all:unset;cursor:pointer}
+  .titre-btn:focus-visible{outline:2px solid var(--orange);outline-offset:3px;border-radius:4px}
+  .parcours{display:flex;align-items:center;gap:8px;width:100%;border:1.5px dashed #E6B98F;background:#FFF7EF;color:var(--brun);border-radius:12px;padding:9px 12px;margin:0 0 12px;font-size:13.5px;font-weight:500;cursor:pointer;text-align:left}
+  .parcours b{color:var(--orange-f)}
+  .parcours::after{content:"›";margin-left:auto;font-size:20px;line-height:1;color:var(--orange-f)}
+  /* Coup de cœur */
+  #une{display:grid;gap:18px;margin:18px 0 4px}
+  .une{background:var(--carte);border-radius:22px;overflow:hidden;display:grid;grid-template-columns:1.15fr 1fr;border:2px solid transparent;box-shadow:0 1px 2px rgba(53,10,7,.06),0 10px 30px rgba(53,10,7,.10);scroll-margin-top:72px}
+  .une.choisie{border-color:var(--orange)}
+  .une .photo{aspect-ratio:auto;min-height:360px}
+  .une .corps{padding:26px 28px}
+  .une h2{font-size:clamp(22px,2.6vw,28px);margin-bottom:6px}
+  .une .accroche{font-size:16px}
+  .une .desc{font-size:15.5px}
+  .badge-une{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;background:var(--orange);color:#fff;font-weight:600;font-size:12px;letter-spacing:.6px;text-transform:uppercase;padding:5px 12px;border-radius:999px;margin:0 0 12px}
+  .une .actions{flex-wrap:wrap}
+  /* Fiche détaillée */
+  .fiche{border:0;padding:0;border-radius:20px;width:min(680px,calc(100% - 32px));max-height:calc(100% - 48px);background:var(--carte);color:var(--brun);box-shadow:0 20px 60px rgba(0,0,0,.35);overflow:hidden}
+  .fiche::backdrop{background:rgba(30,10,5,.55)}
+  .fiche-in{display:flex;flex-direction:column;max-height:calc(100vh - 48px);position:relative}
+  .fiche-defile{overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .fiche .photo{aspect-ratio:16/9}
+  .fiche .corps{padding:18px 22px 8px}
+  .fiche h2{font-size:24px}
+  .fiche .long{display:block;font-size:15px}
+  .fiche-actions{display:flex;gap:8px;padding:12px 22px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--ligne);background:var(--carte)}
+  .fermer{position:absolute;top:12px;right:12px;z-index:3;width:42px;height:42px;border-radius:50%;border:0;background:rgba(255,255,255,.95);color:var(--brun);font-size:24px;line-height:1;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.2)}
+  @media (max-width:760px){
+    .une{grid-template-columns:1fr}
+    .une .photo{min-height:0;aspect-ratio:4/3}
+    .une .corps{padding:18px 16px 18px}
+  }
+  @media (max-width:640px){
+    .fiche{width:100%;max-width:100%;height:100%;max-height:100%;margin:0;border-radius:0}
+    .fiche-in{height:100%;max-height:100%}
+    .fiche-defile{flex:1}
+  }
   .long{display:none;margin:0 0 10px;text-align:justify;hyphens:auto;-webkit-hyphens:auto;white-space:pre-line;font-size:14px;color:#4a2a24}
   .carte.ouverte .long{display:block}
   .plus{background:none;border:0;padding:0;margin:0 0 12px;color:var(--brun);text-decoration:underline;text-underline-offset:3px;font-size:13.5px;cursor:pointer;align-self:flex-start}
@@ -197,6 +237,7 @@
   </div>
   <p class="badge-off"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F7D4F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l7 4v6c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>Guide francophone officiel, enregistré au Cadastur (ministère du Tourisme brésilien)</p>
 
+  <div id="une"></div>
   <div class="filtres" id="filtres" role="toolbar" aria-label="Filtrer les expériences"></div>
   <div class="grille" id="grille" aria-live="polite"></div>
 
@@ -265,6 +306,8 @@
 <footer>
   Vidigal RIO Tour · Guide francophone à Rio de Janeiro · <a href="https://www.vidigalriotour.com/">vidigalriotour.com</a> · <a href="https://www.vidigalriotour.com/cgv">CGV</a>
 </footer>
+
+<dialog class="fiche" id="fiche" aria-labelledby="ficheTitre"><div class="fiche-in" id="ficheIn"></div></dialog>
 
 <div class="barre" id="barre" role="region" aria-label="Ma sélection">
   <div class="page"><span><b id="nbBarre">0</b> <span id="libBarre">expérience choisie</span></span><a href="#demande">Envoyer ma demande</a></div>
@@ -400,7 +443,7 @@
     PAR_CODE = {}; EXP.forEach(function (e) { PAR_CODE[e.code] = e; });
     CHOIX = CHOIX.filter(function (c) { return PAR_CODE[c]; });
     RUBRIQUES = [];
-    if (EXP.some(function (e) { return e.rubrique; })) EXP.forEach(function (e) { var r = e.rubrique || 'Et aussi'; if (RUBRIQUES.indexOf(r) < 0) RUBRIQUES.push(r); });
+    if (EXP.some(function (e) { return e.rubrique && !estUne(e); })) EXP.forEach(function (e) { if (estUne(e)) return; var r = e.rubrique || 'Et aussi'; if (RUBRIQUES.indexOf(r) < 0) RUBRIQUES.push(r); });
     if (FILTRE !== 'tout' && !EXP.some(function (e) { return theme(e, FILTRE); })) FILTRE = 'tout';
     filtres(); cartes(); majChoix();
   }
@@ -415,41 +458,72 @@
   var ICO_OK = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
   var LIB_TYPE = { 'JOURNÉE': 'Journée', 'DEMI-JOURNÉE': 'Demi-journée', 'ACTIVITÉ': 'Activité' };
 
-  function cartes() {
-    var visibles = EXP.filter(function (e) { return theme(e, FILTRE); }), rubAvant = null;
-    $('grille').innerHTML = visibles.map(function (e, i) {
-      var titreRub = '';
-      if (RUBRIQUES.length && FILTRE === 'tout') {
-        var rub = e.rubrique || 'Et aussi';
-        if (rub !== rubAvant) { titreRub = '<h2 class="rubrique">' + esc(rub) + '</h2>'; rubAvant = rub; }
-      }
-      var loc = PHOTOS[e.code] && PHOTOS[e.code].src === e.photo ? 'img/' + PHOTOS[e.code].f + '?v=' + PHOTOS[e.code].v : '';
-      var p = loc || photo(e.photo, 720), p2 = loc || photo(e.photo, 1080), choisi = CHOIX.indexOf(e.code) >= 0;
-      var infos = [e.duree && (/^\d+$/.test(e.duree) ? e.duree + ' h' : e.duree), e.moment, e.horaire].filter(Boolean);
-      var avec = e.avec.filter(function (c) { return PAR_CODE[c] && c !== e.code; });
-      var coches = OPTS[e.code] || [];
-      var blocOpts = e.options.length ? '<div class="opts"><p class="opts-titre">Composez votre parcours</p><p class="opts-aide">Cochez ce qui vous fait envie, je compose l’itinéraire.</p>'
-        + e.options.map(function (g) {
-          return '<fieldset class="opt-g">' + (g.groupe ? '<legend>' + esc(g.groupe) + '</legend>' : '') + '<div class="liste">'
-            + g.choix.map(function (c) { return '<label class="opt"><input type="checkbox" data-opt="' + esc(e.code) + '" value="' + esc(c) + '"' + (coches.indexOf(c) >= 0 ? ' checked' : '') + '><span>' + esc(c) + '</span></label>'; }).join('')
-            + '</div></fieldset>';
-        }).join('') + '</div>' : '';
-      return titreRub + '<article class="carte' + (choisi ? ' choisie' : '') + '" id="' + esc(e.code) + '" data-code="' + esc(e.code) + '">'
-        + '<div class="photo">' + (p ? '<img src="' + esc(p) + '"' + (loc ? '' : ' srcset="' + esc(p) + ' 720w, ' + esc(p2) + ' 1080w" sizes="(max-width:640px) 100vw, 360px"') + ' alt="' + esc(e.titre) + '" ' + (i < 3 ? 'fetchpriority="high"' : 'loading="lazy"') + ' decoding="async" data-p2="' + esc(loc ? photo(e.photo, 720) : photo(e.photo2, 720)) + '">' : '')
-        + '<div class="vide"' + (p ? ' hidden' : '') + '>' + esc(e.titre) + '</div>'
-        + '<span class="etiq">' + esc(LIB_TYPE[(e.type || '').toUpperCase()] || e.type) + '</span><span class="coche" aria-hidden="true">' + ICO_OK + '</span></div>'
-        + '<div class="corps"><h2>' + esc(e.titre) + '</h2>'
-        + (e.accroche ? '<p class="accroche">' + esc(e.accroche) + '</p>' : '')
-        + (infos.length ? '<div class="infos">' + infos.map(function (x) { return '<span>' + esc(x) + '</span>'; }).join('') + '</div>' : '')
-        + (e.court ? '<p class="desc">' + esc(e.court) + '</p>' : '')
-        + (e.long && e.long !== e.court ? '<p class="long">' + esc(e.long) + '</p><button class="plus" type="button" data-plus aria-expanded="false">Lire le détail</button>' : '')
-        + blocOpts
-        + (avec.length ? '<p class="combi">Souvent combiné avec ' + avec.map(function (c) { return '<button type="button" data-voir="' + esc(c) + '">' + esc(PAR_CODE[c].titre) + '</button>'; }).join(' ') + '</p>' : '')
-        + '<div class="actions"><button class="btn prim" type="button" data-ajout aria-pressed="' + choisi + '">' + (choisi ? ICO_OK + 'Ajoutée' : ICO_PLUS + 'Ajouter') + '</button>'
-        + (e.page ? '<a class="btn" href="' + esc(e.page) + '">En savoir plus</a>' : '') + '</div>'
-        + '</div></article>';
-    }).join('');
-    Array.prototype.forEach.call($('grille').querySelectorAll('img'), function (im) {
+  // Rubrique « Coup de cœur » (ou « À la une ») : grand bloc en haut de page
+  function estUne(e) { return /^\s*(coup de c|[àa] la une)/i.test(e.rubrique || ''); }
+
+  function imageHtml(e, prio, grand) {
+    var loc = PHOTOS[e.code] && PHOTOS[e.code].src === e.photo ? 'img/' + PHOTOS[e.code].f + '?v=' + PHOTOS[e.code].v : '';
+    var p = loc || photo(e.photo, grand ? 1080 : 720), p2 = loc || photo(e.photo, 1080);
+    return (p ? '<img src="' + esc(p) + '"' + (loc ? '' : ' srcset="' + esc(photo(e.photo, 720)) + ' 720w, ' + esc(p2) + ' 1080w" sizes="' + (grand ? '(max-width:760px) 100vw, 640px' : '(max-width:640px) 100vw, 360px') + '"')
+      + ' alt="' + esc(e.titre) + '" ' + (prio ? 'fetchpriority="high"' : 'loading="lazy"') + ' decoding="async" data-p2="' + esc(loc ? photo(e.photo, 720) : photo(e.photo2, 720)) + '">' : '')
+      + '<div class="vide"' + (p ? ' hidden' : '') + '>' + esc(e.titre) + '</div>';
+  }
+  function infosHtml(e) {
+    var infos = [e.duree && (/^\d+$/.test(e.duree) ? e.duree + ' h' : e.duree), e.moment, e.horaire].filter(Boolean);
+    return infos.length ? '<div class="infos">' + infos.map(function (x) { return '<span>' + esc(x) + '</span>'; }).join('') + '</div>' : '';
+  }
+  function etiqHtml(e) { return '<span class="etiq">' + esc(LIB_TYPE[(e.type || '').toUpperCase()] || e.type) + '</span><span class="coche" aria-hidden="true">' + ICO_OK + '</span>'; }
+  function boutonAjout(e) { var c = CHOIX.indexOf(e.code) >= 0; return '<button class="btn prim" type="button" data-ajout aria-pressed="' + c + '">' + (c ? ICO_OK + 'Ajoutée' : ICO_PLUS + 'Ajouter') + '</button>'; }
+  function parcoursHtml(e) {
+    if (!e.options.length) return '';
+    var n = 0; e.options.forEach(function (g) { n += g.choix.length; });
+    var k = (OPTS[e.code] || []).length;
+    return '<button class="parcours" type="button" data-fiche data-parcours="' + esc(e.code) + '">' + (k ? '<span><b>' + k + ' lieu' + (k > 1 ? 'x' : '') + ' choisi' + (k > 1 ? 's' : '') + '</b> · modifier mon parcours</span>' : '<span>Composez votre parcours · <b>' + n + ' lieux au choix</b></span>') + '</button>';
+  }
+  function optsHtml(e) {
+    var coches = OPTS[e.code] || [];
+    return e.options.length ? '<div class="opts"><p class="opts-titre">Composez votre parcours</p><p class="opts-aide">Cochez ce qui vous fait envie, je compose l’itinéraire.</p>'
+      + e.options.map(function (g) {
+        return '<fieldset class="opt-g">' + (g.groupe ? '<legend>' + esc(g.groupe) + '</legend>' : '') + '<div class="liste">'
+          + g.choix.map(function (c) { return '<label class="opt"><input type="checkbox" data-opt="' + esc(e.code) + '" value="' + esc(c) + '"' + (coches.indexOf(c) >= 0 ? ' checked' : '') + '><span>' + esc(c) + '</span></label>'; }).join('')
+          + '</div></fieldset>';
+      }).join('') + '</div>' : '';
+  }
+  function avecHtml(e) {
+    var avec = e.avec.filter(function (c) { return PAR_CODE[c] && c !== e.code; });
+    return avec.length ? '<p class="combi">Souvent combiné avec ' + avec.map(function (c) { return '<button type="button" data-voir="' + esc(c) + '">' + esc(PAR_CODE[c].titre) + '</button>'; }).join(' ') + '</p>' : '';
+  }
+
+  function carteHtml(e, i) {
+    var choisi = CHOIX.indexOf(e.code) >= 0;
+    return '<article class="carte' + (choisi ? ' choisie' : '') + '" id="' + esc(e.code) + '" data-code="' + esc(e.code) + '">'
+      + '<div class="photo" data-fiche>' + imageHtml(e, i < 3) + etiqHtml(e) + '</div>'
+      + '<div class="corps"><h2><button class="titre-btn" type="button" data-fiche>' + esc(e.titre) + '</button></h2>'
+      + (e.accroche ? '<p class="accroche">' + esc(e.accroche) + '</p>' : '')
+      + infosHtml(e)
+      + (e.court ? '<p class="desc">' + esc(e.court) + '</p>' : '')
+      + parcoursHtml(e)
+      + '<div class="actions">' + boutonAjout(e) + '<button class="btn" type="button" data-fiche>Détails</button></div>'
+      + '</div></article>';
+  }
+
+  function uneHtml(e) {
+    var choisi = CHOIX.indexOf(e.code) >= 0, texte = e.court || e.long;
+    return '<article class="une' + (choisi ? ' choisie' : '') + '" id="une-' + esc(e.code) + '" data-code="' + esc(e.code) + '">'
+      + '<div class="photo" data-fiche style="cursor:pointer">' + imageHtml(e, true, true) + etiqHtml(e) + '</div>'
+      + '<div class="corps"><span class="badge-une">♥ ' + esc(e.rubrique) + '</span>'
+      + '<h2><button class="titre-btn" type="button" data-fiche>' + esc(e.titre) + '</button></h2>'
+      + (e.accroche ? '<p class="accroche">' + esc(e.accroche) + '</p>' : '')
+      + infosHtml(e)
+      + (texte ? '<p class="desc" style="white-space:pre-line">' + esc(texte) + '</p>' : '')
+      + parcoursHtml(e)
+      + '<div class="actions">' + boutonAjout(e) + '<button class="btn" type="button" data-fiche>Détails</button>'
+      + (e.page ? '<a class="btn" href="' + esc(e.page) + '">En savoir plus</a>' : '') + '</div>'
+      + '</div></article>';
+  }
+
+  function brancherImages(racine) {
+    Array.prototype.forEach.call(racine.querySelectorAll('img'), function (im) {
       var ok = function () { im.classList.add('ok'); };
       if (im.complete && im.naturalWidth) ok(); else im.addEventListener('load', ok);
       im.addEventListener('error', function () {
@@ -462,18 +536,64 @@
     });
   }
 
+  function cartes() {
+    $('une').innerHTML = EXP.filter(estUne).map(uneHtml).join('');
+    brancherImages($('une'));
+    var visibles = EXP.filter(function (e) { return !estUne(e) && theme(e, FILTRE); }), rubAvant = null;
+    $('grille').innerHTML = visibles.map(function (e, i) {
+      var titreRub = '';
+      if (RUBRIQUES.length && FILTRE === 'tout') {
+        var rub = e.rubrique || 'Et aussi';
+        if (rub !== rubAvant) { titreRub = '<h2 class="rubrique">' + esc(rub) + '</h2>'; rubAvant = rub; }
+      }
+      return titreRub + carteHtml(e, i);
+    }).join('');
+    brancherImages($('grille'));
+  }
+
+  /* ---------- Fiche détaillée ---------- */
+  function ouvrirFiche(code) {
+    var e = PAR_CODE[code]; if (!e) return;
+    var f = $('fiche'), choisi = CHOIX.indexOf(code) >= 0;
+    $('ficheIn').setAttribute('data-code', code);
+    $('ficheIn').className = 'fiche-in' + (choisi ? ' choisie' : '');
+    $('ficheIn').innerHTML = '<button class="fermer" type="button" data-fermer aria-label="Fermer">×</button>'
+      + '<div class="fiche-defile"><div class="photo">' + imageHtml(e, true, true) + etiqHtml(e) + '</div>'
+      + '<div class="corps"><h2 id="ficheTitre">' + esc(e.titre) + '</h2>'
+      + (e.accroche ? '<p class="accroche">' + esc(e.accroche) + '</p>' : '')
+      + infosHtml(e)
+      + (e.long || e.court ? '<p class="long">' + esc(e.long || e.court) + '</p>' : '')
+      + optsHtml(e) + avecHtml(e) + '</div></div>'
+      + '<div class="fiche-actions">' + boutonAjout(e) + (e.page ? '<a class="btn" href="' + esc(e.page) + '">En savoir plus</a>' : '') + '</div>';
+    brancherImages($('ficheIn'));
+    if (f.showModal) { if (!f.open) f.showModal(); } else f.setAttribute('open', '');
+    document.documentElement.style.overflow = 'hidden';
+    $('ficheIn').querySelector('.fiche-defile').scrollTop = 0;
+  }
+  function fermerFiche() {
+    var f = $('fiche');
+    if (f.open) { if (f.close) f.close(); else f.removeAttribute('open'); }
+  }
+  $('fiche').addEventListener('close', function () { document.documentElement.style.overflow = ''; });
+  $('fiche').addEventListener('click', function (ev) { if (ev.target === this) fermerFiche(); });
+
   function basculer(code) {
     var i = CHOIX.indexOf(code);
     if (i >= 0) { CHOIX.splice(i, 1); delete OPTS[code]; stock.ecrire(CLE_OPTS, OPTS); } else CHOIX.push(code);
     stock.ecrire(CLE_CHOIX, CHOIX);
-    var c = document.querySelector('.carte[data-code="' + code + '"]');
-    if (c && i >= 0) Array.prototype.forEach.call(c.querySelectorAll('input[data-opt]'), function (x) { x.checked = false; });
-    if (c) {
-      var on = CHOIX.indexOf(code) >= 0, b = c.querySelector('[data-ajout]');
+    var on = CHOIX.indexOf(code) >= 0;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-code="' + code + '"]'), function (c) {
+      if (i >= 0) Array.prototype.forEach.call(c.querySelectorAll('input[data-opt]'), function (x) { x.checked = false; });
       c.classList.toggle('choisie', on);
-      b.setAttribute('aria-pressed', on); b.innerHTML = on ? ICO_OK + 'Ajoutée' : ICO_PLUS + 'Ajouter';
-    }
+      Array.prototype.forEach.call(c.querySelectorAll('[data-ajout]'), function (b) { b.setAttribute('aria-pressed', on); b.innerHTML = on ? ICO_OK + 'Ajoutée' : ICO_PLUS + 'Ajouter'; });
+    });
+    majParcours(code);
     majChoix();
+  }
+
+  function majParcours(code) {
+    var e = PAR_CODE[code]; if (!e) return;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-parcours="' + code + '"]'), function (b) { b.outerHTML = parcoursHtml(e); });
   }
 
   function majChoix() {
@@ -490,27 +610,31 @@
   if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { formVisible = es[0].isIntersecting; barre(); }, { threshold: 0.05 }).observe($('demande'));
 
   function voir(code) {
-    if (!theme(PAR_CODE[code], FILTRE)) { FILTRE = 'tout'; filtres(); cartes(); }
-    var c = $(code); if (!c) return;
+    fermerFiche();
+    var e = PAR_CODE[code]; if (!e) return;
+    if (!estUne(e) && !theme(e, FILTRE)) { FILTRE = 'tout'; filtres(); cartes(); }
+    var c = $(code) || $('une-' + code); if (!c) return;
     c.scrollIntoView({ behavior: 'smooth', block: 'start' });
     c.classList.remove('eclair'); void c.offsetWidth; c.classList.add('eclair');
   }
 
   document.addEventListener('change', function (ev) {
     var t = ev.target; if (!t.hasAttribute || !t.hasAttribute('data-opt')) return;
-    var code = t.getAttribute('data-opt'), carte = t.closest('.carte');
+    var code = t.getAttribute('data-opt'), carte = t.closest('[data-code]');
     OPTS[code] = Array.prototype.filter.call(carte.querySelectorAll('input[data-opt]'), function (x) { return x.checked; }).map(function (x) { return x.value; });
     if (!OPTS[code].length) delete OPTS[code];
     stock.ecrire(CLE_OPTS, OPTS);
-    if (t.checked && CHOIX.indexOf(code) < 0) basculer(code); else majChoix();
+    if (t.checked && CHOIX.indexOf(code) < 0) basculer(code); else { majParcours(code); majChoix(); }
   });
 
   document.addEventListener('click', function (ev) {
+    var fi = ev.target.closest('[data-fiche]');
+    if (fi) { ouvrirFiche(fi.closest('[data-code]').getAttribute('data-code')); return; }
     var t = ev.target.closest('button'); if (!t) return;
     if (t.classList.contains('filtre')) { FILTRE = t.getAttribute('data-f'); filtres(); cartes(); return; }
-    var carte = t.closest('.carte');
-    if (t.hasAttribute('data-ajout')) basculer(carte.getAttribute('data-code'));
-    else if (t.hasAttribute('data-plus')) { var o = carte.classList.toggle('ouverte'); t.textContent = o ? 'Masquer le détail' : 'Lire le détail'; t.setAttribute('aria-expanded', o); }
+    var carte = t.closest('[data-code]');
+    if (t.hasAttribute('data-fermer')) fermerFiche();
+    else if (t.hasAttribute('data-ajout')) basculer(carte.getAttribute('data-code'));
     else if (t.hasAttribute('data-voir')) voir(t.getAttribute('data-voir'));
     else if (t.hasAttribute('data-retirer')) basculer(t.getAttribute('data-retirer'));
   });
