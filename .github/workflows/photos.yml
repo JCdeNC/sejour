@@ -1,0 +1,26 @@
+# Vitrine Expériences : recopie chaque nuit les photos du catalogue Studio Devis (ou à la demande : onglet Actions › Run workflow)
+name: Photos de la vitrine
+on:
+  schedule:
+    - cron: '17 6 * * *'   # 3 h 17 à Rio
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: photos
+jobs:
+  photos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python scripts/photos.py
+      - name: Enregistrer les changements
+        run: |
+          git add experiences/img
+          if git diff --cached --quiet; then echo "Aucun changement"; exit 0; fi
+          git config user.name "Photos vitrine"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Photos de la vitrine mises à jour"
+          git push
