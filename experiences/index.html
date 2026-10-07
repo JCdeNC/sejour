@@ -82,6 +82,22 @@
   .long{display:none;margin:0 0 10px;text-align:justify;hyphens:auto;-webkit-hyphens:auto;white-space:pre-line;font-size:14px;color:#4a2a24}
   .carte.ouverte .long{display:block}
   .plus{background:none;border:0;padding:0;margin:0 0 12px;color:var(--brun);text-decoration:underline;text-underline-offset:3px;font-size:13.5px;cursor:pointer;align-self:flex-start}
+  .rubrique{grid-column:1/-1;margin:18px 0 -4px;font-size:21px;line-height:1.25;display:flex;align-items:center;gap:12px}
+  .rubrique::after{content:"";flex:1;height:2px;background:var(--ligne)}
+  .rubrique:first-child{margin-top:0}
+  .opts{background:var(--fond);border-radius:12px;padding:12px 12px 6px;margin:0 0 14px}
+  .opts-titre{font-weight:600;margin:0}
+  .opts-aide{font-size:12.5px;color:var(--gris);margin:0 0 6px}
+  .opt-g{border:0;padding:0;margin:8px 0 6px}
+  .opt-g legend{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--orange-f);margin:0 0 6px;padding:0}
+  .opt-g .liste{display:flex;flex-wrap:wrap;gap:6px}
+  .opt{position:relative}
+  .opt input{position:absolute;opacity:0;pointer-events:none}
+  .opt span{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--ligne);background:#fff;border-radius:999px;padding:6px 12px;font-size:13.5px;cursor:pointer;min-height:36px}
+  .opt span::before{content:"";width:14px;height:14px;border-radius:4px;border:1.5px solid #cdb9a6;flex:none}
+  .opt input:checked+span{border-color:var(--orange);background:#FCEBDD;font-weight:600}
+  .opt input:checked+span::before{background:var(--orange) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/11px no-repeat;border-color:var(--orange)}
+  .opt input:focus-visible+span{box-shadow:0 0 0 3px rgba(238,137,56,.3)}
   .combi{font-size:12.5px;color:var(--gris);margin:0 0 14px;line-height:1.9}
   .combi button{border:1px dashed #cdb9a6;background:none;border-radius:999px;padding:1px 10px;margin:0 2px;font-size:12.5px;cursor:pointer;color:var(--brun)}
   .actions{display:flex;gap:8px;margin-top:auto}
@@ -262,9 +278,10 @@
   var ENVOI = 'https://www.vidigalriotour.com/_functions/demande';   // relais Wix (clé Studio Devis gardée côté serveur)
   var SITE = 'https://www.vidigalriotour.com';
   var WHATSAPP = '5521971115575';
-  var CLE_CACHE = 'vrt-vitrine-v1', CLE_CHOIX = 'vrt-vitrine-choix', CLE_BROUILLON = 'vrt-vitrine-form';
+  var CLE_CACHE = 'vrt-vitrine-v2', CLE_CHOIX = 'vrt-vitrine-choix', CLE_BROUILLON = 'vrt-vitrine-form', CLE_OPTS = 'vrt-vitrine-options';
 
   var EXP = [], PAR_CODE = {}, CHOIX = [], FILTRE = 'tout', OUVERT_LE = Date.now(), PHOTOS = {};
+  var RUBRIQUES = [], OPTS = {};   // rubriques dans l’ordre d’affichage ; lieux cochés par expérience (ex. City Tour)
   // Photos recopiées chaque nuit dans img/ par GitHub (scripts/photos.py) : plus rapides que Drive
   var photosPretes = fetch('img/photos.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; }).then(function (p) { PHOTOS = p || {}; });
   var $ = function (id) { return document.getElementById(id); };
@@ -309,6 +326,8 @@
   }
   var FAMILLES = [['tout', 'Toutes'], ['journee', 'Journées'], ['demi', 'Demi-journées'], ['activite', 'Activités'], ['soir', 'En soirée'], ['favela', 'Favelas'], ['nature', 'Nature'], ['mer', 'En mer']];
   function theme(e, f) {
+    if (f === 'tout') return true;
+    if (f.indexOf('r:') === 0) return (e.rubrique || 'Et aussi') === f.slice(2);
     var s = (e.titre + ' ' + e.accroche + ' ' + e.court).toLowerCase();
     if (f === 'favela') return /favela|vidigal|rocinha/.test(s);
     if (f === 'nature') return /for[eê]t|randonn|tijuca|plage|sauvage|nature|mangrove/.test(s);
@@ -316,11 +335,24 @@
     return f === 'tout' || famille(e) === f;
   }
 
-  function construire(journees, combi) {
-    var liens = {};
+  // Google renvoie le 1er onglet quand un onglet n’existe pas : on vérifie les titres de colonnes
+  function aColonne(lignes, re) { return lignes.length && Object.keys(lignes[0]).some(function (k) { return re.test(k); }); }
+
+  function construire(journees, combi, options) {
+    var liens = {}, opts = {};
+    if (!aColonne(combi, /combin/i)) combi = [];
+    if (!aColonne(options, /^choix$/i)) options = [];
     combi.forEach(function (r) {
-      var code = col(r, /^code$/i).toUpperCase();
-      if (code) liens[code] = { page: col(r, /page/i), avec: col(r, /combin/i).toUpperCase().split(/[\s,;]+/).filter(Boolean) };
+      var code = col(r, /^code$/i).toUpperCase(), ordre = parseFloat(String(col(r, /^ordre/i)).replace(',', '.'));
+      if (code) liens[code] = { page: col(r, /page/i), avec: col(r, /combin/i).toUpperCase().split(/[\s,;]+/).filter(Boolean),
+        ordre: isNaN(ordre) ? null : ordre, rubrique: col(r, /^rubrique/i) };
+    });
+    options.forEach(function (r) {
+      var code = col(r, /^code$/i).toUpperCase(), choix = col(r, /^choix$/i), groupe = col(r, /^groupe/i);
+      if (!code || !choix) return;
+      var gs = opts[code] = opts[code] || [], g = gs.filter(function (x) { return x.groupe === groupe; })[0];
+      if (!g) gs.push(g = { groupe: groupe, choix: [] });
+      if (g.choix.indexOf(choix) < 0) g.choix.push(choix);
     });
     return journees.filter(function (r) {
       return /^oui$/i.test(col(r, /^active$/i)) && !/TRANSFERT/i.test(col(r, /^type$/i)) && col(r, /^code$/i) && col(r, /^titre$/i);
@@ -333,9 +365,11 @@
         court: col(r, /description courte/i), long: col(r, /description longue/i), duree: col(r, /^dur/i),
         horaire: col(r, /^horaire/i), moment: col(r, /^moment/i),
         photo: col(r, /^photo \(lien/i) || col(r, /^photo 2/i), photo2: col(r, /^photo 2/i),
-        page: /^https?:/.test(page) ? page : '', avec: l.avec || []
+        page: /^https?:/.test(page) ? page : '', avec: l.avec || [],
+        ordre: l.ordre == null ? null : l.ordre, rubrique: l.rubrique || '', options: opts[code] || []
       };
-    });
+    }).map(function (e, i) { e.rang = e.ordre == null ? 1e6 + i : e.ordre; return e; })
+      .sort(function (a, b) { return a.rang - b.rang; });
   }
 
   function charger() {
@@ -343,8 +377,9 @@
     if (cache && cache.exp && cache.exp.length) { EXP = cache.exp; photosPretes.then(pret); }
     else squelettes();
     var get = function (onglet) { return fetch(CATALOGUE + encodeURIComponent(onglet), { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); }); };
-    Promise.all([get('Journées'), get('Combiné avec').catch(function () { return ''; }), photosPretes]).then(function (t) {
-      var exp = construire(csv(t[0]), t[1] ? csv(t[1]) : []);
+    var facultatif = function (onglet) { return get(onglet).catch(function () { return ''; }); };
+    Promise.all([get('Journées'), facultatif('Combiné avec'), facultatif('Options'), photosPretes]).then(function (t) {
+      var exp = construire(csv(t[0]), t[1] ? csv(t[1]) : [], t[2] ? csv(t[2]) : []);
       if (!exp.length) throw new Error('vide');
       var change = JSON.stringify(exp) !== JSON.stringify(EXP);
       EXP = exp; stock.ecrire(CLE_CACHE, { le: Date.now(), exp: exp });
@@ -364,11 +399,15 @@
   function pret() {
     PAR_CODE = {}; EXP.forEach(function (e) { PAR_CODE[e.code] = e; });
     CHOIX = CHOIX.filter(function (c) { return PAR_CODE[c]; });
+    RUBRIQUES = [];
+    if (EXP.some(function (e) { return e.rubrique; })) EXP.forEach(function (e) { var r = e.rubrique || 'Et aussi'; if (RUBRIQUES.indexOf(r) < 0) RUBRIQUES.push(r); });
+    if (FILTRE !== 'tout' && !EXP.some(function (e) { return theme(e, FILTRE); })) FILTRE = 'tout';
     filtres(); cartes(); majChoix();
   }
 
   function filtres() {
-    var dispo = FAMILLES.filter(function (f) { return f[0] === 'tout' || EXP.some(function (e) { return theme(e, f[0]); }); });
+    var dispo = RUBRIQUES.length ? [['tout', 'Toutes']].concat(RUBRIQUES.map(function (r) { return ['r:' + r, r]; }))
+      : FAMILLES.filter(function (f) { return f[0] === 'tout' || EXP.some(function (e) { return theme(e, f[0]); }); });
     $('filtres').innerHTML = dispo.map(function (f) { return '<button class="filtre" type="button" data-f="' + f[0] + '" aria-pressed="' + (FILTRE === f[0]) + '">' + f[1] + '</button>'; }).join('');
   }
 
@@ -377,13 +416,25 @@
   var LIB_TYPE = { 'JOURNÉE': 'Journée', 'DEMI-JOURNÉE': 'Demi-journée', 'ACTIVITÉ': 'Activité' };
 
   function cartes() {
-    var visibles = EXP.filter(function (e) { return theme(e, FILTRE); });
+    var visibles = EXP.filter(function (e) { return theme(e, FILTRE); }), rubAvant = null;
     $('grille').innerHTML = visibles.map(function (e, i) {
+      var titreRub = '';
+      if (RUBRIQUES.length && FILTRE === 'tout') {
+        var rub = e.rubrique || 'Et aussi';
+        if (rub !== rubAvant) { titreRub = '<h2 class="rubrique">' + esc(rub) + '</h2>'; rubAvant = rub; }
+      }
       var loc = PHOTOS[e.code] && PHOTOS[e.code].src === e.photo ? 'img/' + PHOTOS[e.code].f + '?v=' + PHOTOS[e.code].v : '';
       var p = loc || photo(e.photo, 720), p2 = loc || photo(e.photo, 1080), choisi = CHOIX.indexOf(e.code) >= 0;
       var infos = [e.duree && (/^\d+$/.test(e.duree) ? e.duree + ' h' : e.duree), e.moment, e.horaire].filter(Boolean);
       var avec = e.avec.filter(function (c) { return PAR_CODE[c] && c !== e.code; });
-      return '<article class="carte' + (choisi ? ' choisie' : '') + '" id="' + esc(e.code) + '" data-code="' + esc(e.code) + '">'
+      var coches = OPTS[e.code] || [];
+      var blocOpts = e.options.length ? '<div class="opts"><p class="opts-titre">Composez votre parcours</p><p class="opts-aide">Cochez ce qui vous fait envie, je compose l’itinéraire.</p>'
+        + e.options.map(function (g) {
+          return '<fieldset class="opt-g">' + (g.groupe ? '<legend>' + esc(g.groupe) + '</legend>' : '') + '<div class="liste">'
+            + g.choix.map(function (c) { return '<label class="opt"><input type="checkbox" data-opt="' + esc(e.code) + '" value="' + esc(c) + '"' + (coches.indexOf(c) >= 0 ? ' checked' : '') + '><span>' + esc(c) + '</span></label>'; }).join('')
+            + '</div></fieldset>';
+        }).join('') + '</div>' : '';
+      return titreRub + '<article class="carte' + (choisi ? ' choisie' : '') + '" id="' + esc(e.code) + '" data-code="' + esc(e.code) + '">'
         + '<div class="photo">' + (p ? '<img src="' + esc(p) + '"' + (loc ? '' : ' srcset="' + esc(p) + ' 720w, ' + esc(p2) + ' 1080w" sizes="(max-width:640px) 100vw, 360px"') + ' alt="' + esc(e.titre) + '" ' + (i < 3 ? 'fetchpriority="high"' : 'loading="lazy"') + ' decoding="async" data-p2="' + esc(loc ? photo(e.photo, 720) : photo(e.photo2, 720)) + '">' : '')
         + '<div class="vide"' + (p ? ' hidden' : '') + '>' + esc(e.titre) + '</div>'
         + '<span class="etiq">' + esc(LIB_TYPE[(e.type || '').toUpperCase()] || e.type) + '</span><span class="coche" aria-hidden="true">' + ICO_OK + '</span></div>'
@@ -392,6 +443,7 @@
         + (infos.length ? '<div class="infos">' + infos.map(function (x) { return '<span>' + esc(x) + '</span>'; }).join('') + '</div>' : '')
         + (e.court ? '<p class="desc">' + esc(e.court) + '</p>' : '')
         + (e.long && e.long !== e.court ? '<p class="long">' + esc(e.long) + '</p><button class="plus" type="button" data-plus aria-expanded="false">Lire le détail</button>' : '')
+        + blocOpts
         + (avec.length ? '<p class="combi">Souvent combiné avec ' + avec.map(function (c) { return '<button type="button" data-voir="' + esc(c) + '">' + esc(PAR_CODE[c].titre) + '</button>'; }).join(' ') + '</p>' : '')
         + '<div class="actions"><button class="btn prim" type="button" data-ajout aria-pressed="' + choisi + '">' + (choisi ? ICO_OK + 'Ajoutée' : ICO_PLUS + 'Ajouter') + '</button>'
         + (e.page ? '<a class="btn" href="' + esc(e.page) + '">En savoir plus</a>' : '') + '</div>'
@@ -412,9 +464,10 @@
 
   function basculer(code) {
     var i = CHOIX.indexOf(code);
-    if (i >= 0) CHOIX.splice(i, 1); else CHOIX.push(code);
+    if (i >= 0) { CHOIX.splice(i, 1); delete OPTS[code]; stock.ecrire(CLE_OPTS, OPTS); } else CHOIX.push(code);
     stock.ecrire(CLE_CHOIX, CHOIX);
     var c = document.querySelector('.carte[data-code="' + code + '"]');
+    if (c && i >= 0) Array.prototype.forEach.call(c.querySelectorAll('input[data-opt]'), function (x) { x.checked = false; });
     if (c) {
       var on = CHOIX.indexOf(code) >= 0, b = c.querySelector('[data-ajout]');
       c.classList.toggle('choisie', on);
@@ -427,7 +480,7 @@
     var n = CHOIX.length;
     $('nbBarre').textContent = n; $('libBarre').textContent = n > 1 ? 'expériences choisies' : 'expérience choisie';
     $('nbHaut').textContent = n ? '(' + n + ')' : '';
-    $('choixListe').innerHTML = n ? CHOIX.map(function (c) { return '<span class="puce">' + esc(PAR_CODE[c].titre) + '<button type="button" data-retirer="' + esc(c) + '" aria-label="Retirer ' + esc(PAR_CODE[c].titre) + '">×</button></span>'; }).join('')
+    $('choixListe').innerHTML = n ? CHOIX.map(function (c) { return '<span class="puce">' + esc(PAR_CODE[c].titre) + ((OPTS[c] || []).length ? ' · ' + OPTS[c].length + ' choix' : '') + '<button type="button" data-retirer="' + esc(c) + '" aria-label="Retirer ' + esc(PAR_CODE[c].titre) + '">×</button></span>'; }).join('')
       : '<p class="aucun">Aucune expérience choisie pour l’instant : ajoutez-en depuis les cartes, ou décrivez simplement vos envies dans le message.</p>';
     barre();
   }
@@ -442,6 +495,15 @@
     c.scrollIntoView({ behavior: 'smooth', block: 'start' });
     c.classList.remove('eclair'); void c.offsetWidth; c.classList.add('eclair');
   }
+
+  document.addEventListener('change', function (ev) {
+    var t = ev.target; if (!t.hasAttribute || !t.hasAttribute('data-opt')) return;
+    var code = t.getAttribute('data-opt'), carte = t.closest('.carte');
+    OPTS[code] = Array.prototype.filter.call(carte.querySelectorAll('input[data-opt]'), function (x) { return x.checked; }).map(function (x) { return x.value; });
+    if (!OPTS[code].length) delete OPTS[code];
+    stock.ecrire(CLE_OPTS, OPTS);
+    if (t.checked && CHOIX.indexOf(code) < 0) basculer(code); else majChoix();
+  });
 
   document.addEventListener('click', function (ev) {
     var t = ev.target.closest('button'); if (!t) return;
@@ -514,9 +576,11 @@
 
   function donnees() {
     var tr = Array.prototype.filter.call($('transferts').querySelectorAll('input'), function (x) { return x.checked; }).map(function (x) { return x.value; });
-    var choix = CHOIX.map(function (c) { return PAR_CODE[c].titre + ' [' + c + ']'; });
+    var choix = CHOIX.map(function (c) { return PAR_CODE[c].titre + ' [' + c + ']' + ((OPTS[c] || []).length ? ' : ' + OPTS[c].join(', ') : ''); });
     var msg = $('message').value.trim();
-    var resume = (choix.length ? 'Expériences choisies sur la vitrine : ' + CHOIX.join(' ') : 'Aucune expérience cochée sur la vitrine');
+    var details = CHOIX.filter(function (c) { return (OPTS[c] || []).length; }).map(function (c) { return PAR_CODE[c].titre + ' : ' + OPTS[c].join(', '); });
+    var resume = (choix.length ? 'Expériences choisies sur la vitrine : ' + CHOIX.join(' ') : 'Aucune expérience cochée sur la vitrine')
+      + (details.length ? '\n' + details.join('\n') : '');
     return {
       source: 'Vitrine Expériences',
       prenom: $('prenom').value.trim(), nom: $('nom').value.trim(), email: $('email').value.trim(),
@@ -555,7 +619,7 @@
         clearTimeout(minuterie);
         $('merciTitre').textContent = 'Merci ' + d.prenom + ' !';
         $('zoneForm').classList.add('cache'); $('merci').classList.remove('cache');
-        CHOIX = []; stock.ecrire(CLE_CHOIX, []); stock.ecrire(CLE_BROUILLON, null);
+        CHOIX = []; OPTS = {}; stock.ecrire(CLE_CHOIX, []); stock.ecrire(CLE_OPTS, {}); stock.ecrire(CLE_BROUILLON, null);
         cartes(); majChoix();
         $('demande').scrollIntoView({ behavior: 'smooth', block: 'start' });
       })
@@ -570,6 +634,7 @@
   /* ---------- Démarrage ---------- */
   var q = new URLSearchParams(location.search);
   CHOIX = (stock.lire(CLE_CHOIX) || []).slice();
+  OPTS = stock.lire(CLE_OPTS) || {};
   (q.get('choix') || '').toUpperCase().split(/[\s,;]+/).forEach(function (c) { if (c && CHOIX.indexOf(c) < 0) CHOIX.push(c); });
   restaurer();
   charger();
