@@ -264,7 +264,9 @@
   var WHATSAPP = '5521971115575';
   var CLE_CACHE = 'vrt-vitrine-v1', CLE_CHOIX = 'vrt-vitrine-choix', CLE_BROUILLON = 'vrt-vitrine-form';
 
-  var EXP = [], PAR_CODE = {}, CHOIX = [], FILTRE = 'tout', OUVERT_LE = Date.now();
+  var EXP = [], PAR_CODE = {}, CHOIX = [], FILTRE = 'tout', OUVERT_LE = Date.now(), PHOTOS = {};
+  // Photos recopiées chaque nuit dans img/ par GitHub (scripts/photos.py) : plus rapides que Drive
+  var photosPretes = fetch('img/photos.json', { cache: 'no-cache' }).then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; }).then(function (p) { PHOTOS = p || {}; });
   var $ = function (id) { return document.getElementById(id); };
   var stock = {
     lire: function (k) { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { return null; } },
@@ -293,7 +295,7 @@
     url = String(url || '').trim();
     if (!url) return '';
     var m = url.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]{20,})/) || url.match(/[?&]id=([\w-]{20,})/);
-    if (m) return 'https://lh3.googleusercontent.com/d/' + m[1] + '=w' + w;
+    if (m) return 'https://lh3.googleusercontent.com/d/' + m[1] + '=w' + w + '-rj-l78';   // JPEG allégé, même si l’original est un PNG
     if (/images\.pexels\.com/.test(url)) return url.split('?')[0] + '?auto=compress&cs=tinysrgb&fit=crop&w=' + w + '&h=' + Math.round(w * 0.75);
     return /^https?:/.test(url) ? url : '';
   }
@@ -338,10 +340,10 @@
 
   function charger() {
     var cache = stock.lire(CLE_CACHE);
-    if (cache && cache.exp && cache.exp.length) { EXP = cache.exp; pret(); }
+    if (cache && cache.exp && cache.exp.length) { EXP = cache.exp; photosPretes.then(pret); }
     else squelettes();
     var get = function (onglet) { return fetch(CATALOGUE + encodeURIComponent(onglet), { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); }); };
-    Promise.all([get('Journées'), get('Combiné avec').catch(function () { return ''; })]).then(function (t) {
+    Promise.all([get('Journées'), get('Combiné avec').catch(function () { return ''; }), photosPretes]).then(function (t) {
       var exp = construire(csv(t[0]), t[1] ? csv(t[1]) : []);
       if (!exp.length) throw new Error('vide');
       var change = JSON.stringify(exp) !== JSON.stringify(EXP);
@@ -377,11 +379,12 @@
   function cartes() {
     var visibles = EXP.filter(function (e) { return theme(e, FILTRE); });
     $('grille').innerHTML = visibles.map(function (e, i) {
-      var p = photo(e.photo, 720), p2 = photo(e.photo, 1080), choisi = CHOIX.indexOf(e.code) >= 0;
+      var loc = PHOTOS[e.code] && PHOTOS[e.code].src === e.photo ? 'img/' + PHOTOS[e.code].f + '?v=' + PHOTOS[e.code].v : '';
+      var p = loc || photo(e.photo, 720), p2 = loc || photo(e.photo, 1080), choisi = CHOIX.indexOf(e.code) >= 0;
       var infos = [e.duree && (/^\d+$/.test(e.duree) ? e.duree + ' h' : e.duree), e.moment, e.horaire].filter(Boolean);
       var avec = e.avec.filter(function (c) { return PAR_CODE[c] && c !== e.code; });
       return '<article class="carte' + (choisi ? ' choisie' : '') + '" id="' + esc(e.code) + '" data-code="' + esc(e.code) + '">'
-        + '<div class="photo">' + (p ? '<img src="' + esc(p) + '" srcset="' + esc(p) + ' 720w, ' + esc(p2) + ' 1080w" sizes="(max-width:640px) 100vw, 360px" alt="' + esc(e.titre) + '" ' + (i < 3 ? 'fetchpriority="high"' : 'loading="lazy"') + ' decoding="async" data-p2="' + esc(photo(e.photo2, 720)) + '">' : '')
+        + '<div class="photo">' + (p ? '<img src="' + esc(p) + '"' + (loc ? '' : ' srcset="' + esc(p) + ' 720w, ' + esc(p2) + ' 1080w" sizes="(max-width:640px) 100vw, 360px"') + ' alt="' + esc(e.titre) + '" ' + (i < 3 ? 'fetchpriority="high"' : 'loading="lazy"') + ' decoding="async" data-p2="' + esc(loc ? photo(e.photo, 720) : photo(e.photo2, 720)) + '">' : '')
         + '<div class="vide"' + (p ? ' hidden' : '') + '>' + esc(e.titre) + '</div>'
         + '<span class="etiq">' + esc(LIB_TYPE[(e.type || '').toUpperCase()] || e.type) + '</span><span class="coche" aria-hidden="true">' + ICO_OK + '</span></div>'
         + '<div class="corps"><h2>' + esc(e.titre) + '</h2>'
