@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nos expériences à Rio · Vidigal RIO Tour</title>
+<meta name="description" content="Favelas, forêt de Tijuca, îles, bateau, City Tour… Choisissez vos expériences à Rio avec un guide francophone officiel et recevez votre programme sur mesure.">
+<link rel="canonical" href="https://sejour.vidigalriotour.com/experiences/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Vidigal RIO Tour">
+<meta property="og:title" content="Composez votre séjour à Rio · Vidigal RIO Tour">
+<meta property="og:description" content="Choisissez vos expériences, je vous prépare un programme sur mesure avec un guide francophone officiel.">
+<meta property="og:image" content="https://static.wixstatic.com/media/c046ee_46f672c0de4949a49c74185394cd4271~mv2.jpeg/v1/fill/w_1200,h_630,al_c,q_85/vignette.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://sejour.vidigalriotour.com/experiences/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="https://jcdenc.github.io/studio-devis/favicon.png">
+<link rel="apple-touch-icon" href="https://jcdenc.github.io/studio-devis/apple-touch-icon.png">
+<meta name="theme-color" content="#F4EFE8">
+<link rel="preconnect" href="https://docs.google.com">
+<link rel="preconnect" href="https://lh3.googleusercontent.com">
+<link rel="preconnect" href="https://images.pexels.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--fond:#F4EFE8;--carte:#FFFFFF;--brun:#350A07;--orange:#EE8938;--orange-f:#C96A1E;--sable:#E8D9C8;--gris:#7A6A63;--ligne:#E3D6C8;--vert:#2F7D4F;--rayon:16px}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--fond);color:var(--brun);font:15px/1.6 Poppins,system-ui,-apple-system,"Segoe UI",sans-serif}
+  a{color:inherit}
+  button,input,select,textarea{font:inherit;color:inherit}
+  .page{max-width:1120px;margin:0 auto;padding:0 16px}
+
+  /* En-tête */
+  .haut{position:sticky;top:0;z-index:20;background:rgba(244,239,232,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--ligne)}
+  .haut .page{display:flex;align-items:center;justify-content:space-between;height:56px;gap:12px}
+  .marque{font-weight:700;font-size:17px;text-decoration:none;letter-spacing:.2px;white-space:nowrap}
+  .marque span{color:var(--orange)}
+  .haut nav{display:flex;gap:6px;align-items:center}
+  .haut nav a{font-size:13px;text-decoration:none;padding:7px 12px;border-radius:999px}
+  .haut nav a.site{color:var(--gris)}
+  .haut nav a.cta{background:var(--brun);color:#fff;font-weight:600}
+
+  /* Bandeau */
+  .hero{position:relative;margin:16px 0 0;border-radius:22px;overflow:hidden;min-height:300px;display:flex;align-items:flex-end;background:#5a3a2c center/cover no-repeat}
+  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(53,10,7,.05) 0%,rgba(53,10,7,.72) 100%)}
+  .hero .txt{position:relative;z-index:1;color:#fff;padding:28px 22px}
+  .hero h1{margin:0 0 6px;font-size:clamp(26px,5vw,42px);line-height:1.15;font-weight:700}
+  .hero p{margin:0;max-width:620px;font-size:15px;opacity:.95}
+  .etapes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0 6px}
+  .etape{background:var(--carte);border-radius:14px;padding:12px 14px;font-size:13px;line-height:1.45;border:1px solid var(--ligne)}
+  .etape b{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--orange);color:#fff;font-size:13px;margin-right:6px}
+  .badge-off{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--gris);margin:8px 2px 0}
+  .badge-off svg{flex:none}
+
+  /* Filtres */
+  .filtres{display:flex;gap:8px;overflow-x:auto;padding:18px 0 10px;scrollbar-width:none;margin:0 -16px;padding-left:16px;padding-right:16px}
+  .filtres::-webkit-scrollbar{display:none}
+  .filtre{flex:none;border:1px solid var(--ligne);background:var(--carte);border-radius:999px;padding:8px 15px;font-size:13.5px;cursor:pointer;white-space:nowrap}
+  .filtre[aria-pressed="true"]{background:var(--brun);border-color:var(--brun);color:#fff}
+
+  /* Cartes */
+  .grille{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;padding:6px 0 24px}
+  .carte{background:var(--carte);border-radius:var(--rayon);overflow:hidden;display:flex;flex-direction:column;border:2px solid transparent;box-shadow:0 1px 2px rgba(53,10,7,.06),0 6px 18px rgba(53,10,7,.06);transition:border-color .2s,transform .2s;scroll-margin-top:72px}
+  .carte.choisie{border-color:var(--orange)}
+  .carte.eclair{animation:eclair 1.4s ease}
+  @keyframes eclair{0%,100%{box-shadow:0 1px 2px rgba(53,10,7,.06),0 6px 18px rgba(53,10,7,.06)}30%{box-shadow:0 0 0 6px rgba(238,137,56,.45)}}
+  .photo{position:relative;aspect-ratio:4/3;background:var(--sable)}
+  .photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .35s}
+  .photo img.ok{opacity:1}
+  .photo .vide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:600;color:rgba(53,10,7,.35);font-size:14px;text-align:center;padding:20px}
+  .etiq{position:absolute;left:12px;top:12px;background:rgba(255,255,255,.93);color:var(--brun);font-size:11.5px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;padding:4px 10px;border-radius:999px}
+  .coche{position:absolute;right:12px;top:12px;width:34px;height:34px;border-radius:50%;background:var(--orange);color:#fff;display:none;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+  .carte.choisie .coche{display:flex}
+  .corps{padding:14px 16px 16px;display:flex;flex-direction:column;flex:1}
+  .corps h2{font-size:18px;line-height:1.3;margin:0 0 2px;font-weight:600}
+  .accroche{color:var(--orange-f);font-weight:500;font-size:14px;margin:0 0 8px}
+  .infos{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px}
+  .infos span{font-size:12px;background:var(--fond);border-radius:8px;padding:3px 9px;color:var(--gris)}
+  .desc{margin:0 0 10px;text-align:justify;hyphens:auto;-webkit-hyphens:auto}
+  .long{display:none;margin:0 0 10px;text-align:justify;hyphens:auto;-webkit-hyphens:auto;white-space:pre-line;font-size:14px;color:#4a2a24}
+  .carte.ouverte .long{display:block}
+  .plus{background:none;border:0;padding:0;margin:0 0 12px;color:var(--brun);text-decoration:underline;text-underline-offset:3px;font-size:13.5px;cursor:pointer;align-self:flex-start}
+  .combi{font-size:12.5px;color:var(--gris);margin:0 0 14px;line-height:1.9}
+  .combi button{border:1px dashed #cdb9a6;background:none;border-radius:999px;padding:1px 10px;margin:0 2px;font-size:12.5px;cursor:pointer;color:var(--brun)}
+  .actions{display:flex;gap:8px;margin-top:auto}
+  .btn{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;border-radius:12px;border:1.5px solid var(--brun);background:none;padding:8px 12px;font-weight:600;font-size:14px;cursor:pointer;text-decoration:none;text-align:center;line-height:1.2}
+  .btn.prim{background:var(--orange);border-color:var(--orange);color:#fff}
+  .carte.choisie .btn.prim{background:#fff;color:var(--orange-f);border-color:var(--orange)}
+  .squelette .photo{animation:pulse 1.2s infinite ease-in-out}
+  .squelette .corps div{height:14px;background:var(--sable);border-radius:6px;margin:6px 0;animation:pulse 1.2s infinite ease-in-out}
+  @keyframes pulse{50%{opacity:.55}}
+
+  /* Formulaire */
+  .demande{background:var(--carte);border-radius:22px;padding:22px 18px;margin:10px 0 40px;border:1px solid var(--ligne);scroll-margin-top:68px}
+  .demande h2{margin:0 0 4px;font-size:24px}
+  .demande .sous{margin:0 0 16px;color:var(--gris)}
+  .choix-liste{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 6px;min-height:20px}
+  .puce{display:inline-flex;align-items:center;gap:6px;background:#FCEBDD;border:1px solid #F3C9A4;border-radius:999px;padding:5px 6px 5px 12px;font-size:13px}
+  .puce button{border:0;background:rgba(53,10,7,.08);width:22px;height:22px;border-radius:50%;cursor:pointer;line-height:1;font-size:14px}
+  .aucun{color:var(--gris);font-size:13.5px;margin:0}
+  fieldset{border:0;padding:0;margin:18px 0 0}
+  legend{font-weight:600;font-size:15px;padding:0;margin:0 0 10px}
+  .champs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .champ{display:flex;flex-direction:column;gap:4px;min-width:0}
+  .champ.large{grid-column:1/-1}
+  .champ label{font-size:13px;font-weight:500}
+  .champ label i{color:var(--orange-f);font-style:normal}
+  .champ input,.champ select,.champ textarea{width:100%;border:1.5px solid var(--ligne);border-radius:12px;padding:11px 12px;background:#FFFCF8;font-size:16px;min-height:46px}
+  .champ textarea{min-height:110px;resize:vertical}
+  .champ input:focus,.champ select:focus,.champ textarea:focus{outline:none;border-color:var(--orange);box-shadow:0 0 0 3px rgba(238,137,56,.18)}
+  .champ.err input,.champ.err select,.champ.err textarea{border-color:#C0392B}
+  .champ .msg{display:none;color:#C0392B;font-size:12.5px}
+  .champ.err .msg{display:block}
+  .aide{font-size:12px;color:var(--gris)}
+  .compteur{display:flex;align-items:center;border:1.5px solid var(--ligne);border-radius:12px;background:#FFFCF8;min-height:46px;overflow:hidden}
+  .compteur button{width:46px;height:46px;border:0;background:none;font-size:20px;cursor:pointer;color:var(--brun)}
+  .compteur output{flex:1;text-align:center;font-weight:600;font-size:16px}
+  .options{display:flex;flex-wrap:wrap;gap:8px}
+  .option{position:relative}
+  .option input{position:absolute;opacity:0;pointer-events:none}
+  .option span{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--ligne);border-radius:12px;padding:10px 14px;cursor:pointer;background:#FFFCF8;font-size:14px;min-height:44px}
+  .option input:checked+span{border-color:var(--orange);background:#FCEBDD;font-weight:600}
+  .option input:focus-visible+span{box-shadow:0 0 0 3px rgba(238,137,56,.3)}
+  .piege{position:absolute;left:-5000px;width:1px;height:1px;overflow:hidden}
+  .envoi{margin-top:22px;display:flex;flex-direction:column;gap:10px}
+  .envoi .btn{flex:none;min-height:52px;font-size:16px}
+  .envoi .rgpd{font-size:12px;color:var(--gris);margin:0;text-align:center}
+  .alerte{display:none;border-radius:12px;padding:12px 14px;font-size:14px;margin-top:14px}
+  .alerte.err{display:block;background:#FDECEA;color:#8E2B20}
+  .merci{text-align:center;padding:16px 4px}
+  .merci .rond{width:64px;height:64px;border-radius:50%;background:var(--vert);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+  .merci h2{margin:0 0 8px}
+  .merci p{margin:0 auto 10px;max-width:520px}
+
+  /* Barre basse */
+  .barre{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--brun);color:#fff;transform:translateY(110%);transition:transform .25s;padding:10px 16px calc(10px + env(safe-area-inset-bottom))}
+  .barre.visible{transform:none}
+  .barre .page{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0}
+  .barre b{font-weight:600}
+  .barre a{background:var(--orange);color:#fff;text-decoration:none;font-weight:600;border-radius:12px;padding:10px 16px;white-space:nowrap}
+  footer{text-align:center;font-size:12.5px;color:var(--gris);padding:10px 16px 110px}
+  footer a{color:var(--gris)}
+  .cache{display:none!important}
+
+  @media (max-width:640px){
+    .haut nav a.site{display:none}
+    .hero{min-height:260px;border-radius:18px}
+    .hero .txt{padding:22px 18px}
+    .etapes{grid-template-columns:1fr;gap:8px}
+    .grille{grid-template-columns:1fr;gap:16px}
+    .champs{grid-template-columns:1fr}
+    .champs.duo{grid-template-columns:1fr 1fr}
+    .demande{padding:20px 14px;border-radius:18px;margin-left:-4px;margin-right:-4px}
+  }
+</style>
+</head>
+<body>
+<header class="haut">
+  <div class="page">
+    <a class="marque" href="https://www.vidigalriotour.com/">Vidigal <span>RIO</span> Tour</a>
+    <nav>
+      <a class="site" href="https://www.vidigalriotour.com/">Le site</a>
+      <a class="cta" href="#demande">Ma demande <span id="nbHaut"></span></a>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+  <section class="hero" style="background-image:url('https://static.wixstatic.com/media/c046ee_2358fcbbd31c4b78b7d1c487de7324d9~mv2.jpeg/v1/fill/w_1400,h_700,al_c,q_80,enc_auto/rio.jpg')">
+    <div class="txt">
+      <h1>Composez votre séjour à Rio</h1>
+      <p>Choisissez les expériences qui vous font envie, je vous prépare un programme sur mesure avec les prix, sans engagement.</p>
+    </div>
+  </section>
+  <div class="etapes">
+    <div class="etape"><b>1</b>Ajoutez les expériences qui vous plaisent.</div>
+    <div class="etape"><b>2</b>Indiquez vos dates et le nombre de voyageurs.</div>
+    <div class="etape"><b>3</b>Recevez votre programme et votre devis personnalisé.</div>
+  </div>
+  <p class="badge-off"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2F7D4F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l7 4v6c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>Guide francophone officiel, enregistré au Cadastur (ministère du Tourisme brésilien)</p>
+
+  <div class="filtres" id="filtres" role="toolbar" aria-label="Filtrer les expériences"></div>
+  <div class="grille" id="grille" aria-live="polite"></div>
+
+  <section class="demande" id="demande">
+    <div id="zoneForm">
+      <h2>Ma demande</h2>
+      <p class="sous">Je vous réponds personnellement, en général sous 24 heures.</p>
+      <div class="choix-liste" id="choixListe"></div>
+
+      <form id="form" novalidate>
+        <div class="piege" aria-hidden="true"><label>Site web <input type="text" name="site_web" id="site_web" tabindex="-1" autocomplete="off"></label></div>
+
+        <fieldset>
+          <legend>Vos coordonnées</legend>
+          <div class="champs">
+            <div class="champ"><label for="prenom">Prénom <i>*</i></label><input id="prenom" name="prenom" autocomplete="given-name" required><span class="msg">Indiquez votre prénom.</span></div>
+            <div class="champ"><label for="nom">Nom <i>*</i></label><input id="nom" name="nom" autocomplete="family-name" required><span class="msg">Indiquez votre nom.</span></div>
+            <div class="champ"><label for="email">E-mail <i>*</i></label><input id="email" name="email" type="email" inputmode="email" autocomplete="email" required><span class="msg">Cette adresse e-mail ne semble pas valide.</span></div>
+            <div class="champ"><label for="whatsapp">WhatsApp <i>*</i></label><input id="whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="+33 6 12 34 56 78" required><span class="msg">Indiquez votre numéro avec l’indicatif (+33, +32…).</span></div>
+            <div class="champ large"><label for="pays">Pays de résidence</label><input id="pays" name="pays" list="dlPays" autocomplete="country-name"><datalist id="dlPays"><option value="France"><option value="Belgique"><option value="Suisse"><option value="Canada"><option value="Luxembourg"></datalist></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Votre séjour</legend>
+          <div class="champs duo">
+            <div class="champ"><label for="arrivee">Arrivée <i>*</i></label><input id="arrivee" name="date_arrivee" type="date" required><span class="msg">Choisissez votre date d’arrivée.</span></div>
+            <div class="champ"><label for="depart">Départ <i>*</i></label><input id="depart" name="date_depart" type="date" required><span class="msg">Le départ doit être après l’arrivée.</span></div>
+            <div class="champ"><label id="lAdultes">Adultes <i>*</i></label><div class="compteur" data-min="1" aria-labelledby="lAdultes"><button type="button" aria-label="Un adulte de moins">−</button><output id="adultes">2</output><button type="button" aria-label="Un adulte de plus">+</button></div></div>
+            <div class="champ"><label id="lEnfants">Enfants</label><div class="compteur" data-min="0" aria-labelledby="lEnfants"><button type="button" aria-label="Un enfant de moins">−</button><output id="enfants">0</output><button type="button" aria-label="Un enfant de plus">+</button></div></div>
+            <div class="champ large cache" id="champAges"><label for="ages">Âge des enfants <i>*</i></label><input id="ages" name="age_s_des_enfants" placeholder="Ex. : 4 et 9 ans"><span class="msg">Indiquez l’âge de chaque enfant.</span></div>
+            <div class="champ large"><label for="heberg">Hébergement (quartier ou hôtel, si vous le savez)</label><input id="heberg" name="hebergement" placeholder="Ex. : Copacabana, Ipanema…"></div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Transferts aéroport</legend>
+          <div class="options" id="transferts">
+            <label class="option"><input type="checkbox" value="Arrivée : aéroport GIG → hébergement"><span>À l’arrivée</span></label>
+            <label class="option"><input type="checkbox" value="Départ : hébergement → aéroport GIG"><span>Au départ</span></label>
+            <label class="option"><input type="checkbox" value="Non merci" data-non><span>Non merci</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Votre message</legend>
+          <div class="champ large"><label for="message" class="cache">Message</label><textarea id="message" name="message" placeholder="Vos envies, votre rythme, une occasion spéciale, vos questions… Plus vous m’en dites, plus votre programme vous ressemblera."></textarea></div>
+        </fieldset>
+
+        <div class="alerte" id="alerte"></div>
+        <div class="envoi">
+          <button class="btn prim" type="submit" id="envoyer">Envoyer ma demande</button>
+          <p class="rgpd">Vos informations servent uniquement à préparer votre séjour. Elles ne sont jamais revendues ni partagées.</p>
+        </div>
+      </form>
+    </div>
+    <div class="merci cache" id="merci">
+      <div class="rond"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+      <h2 id="merciTitre">Merci !</h2>
+      <p>Votre demande est bien arrivée. Je prépare votre programme et je vous réponds très vite, par e-mail ou sur WhatsApp.</p>
+      <p><a class="btn" style="display:inline-flex;max-width:320px" href="https://www.vidigalriotour.com/">Retour au site</a></p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  Vidigal RIO Tour · Guide francophone à Rio de Janeiro · <a href="https://www.vidigalriotour.com/">vidigalriotour.com</a> · <a href="https://www.vidigalriotour.com/cgv">CGV</a>
+</footer>
+
+<div class="barre" id="barre" role="region" aria-label="Ma sélection">
+  <div class="page"><span><b id="nbBarre">0</b> <span id="libBarre">expérience choisie</span></span><a href="#demande">Envoyer ma demande</a></div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  /* Réglages */
+  var CATALOGUE = 'https://docs.google.com/spreadsheets/d/1yJUIECBA8HIP6g_5p6hqw0hYN081tVXihU9KkVvl2G8/gviz/tq?tqx=out:csv&headers=1&sheet=';
+  var ENVOI = 'https://www.vidigalriotour.com/_functions/demande';   // relais Wix (clé Studio Devis gardée côté serveur)
+  var SITE = 'https://www.vidigalriotour.com';
+  var WHATSAPP = '5521971115575';
+  var CLE_CACHE = 'vrt-vitrine-v1', CLE_CHOIX = 'vrt-vitrine-choix', CLE_BROUILLON = 'vrt-vitrine-form';
+
+  var EXP = [], PAR_CODE = {}, CHOIX = [], FILTRE = 'tout', OUVERT_LE = Date.now();
+  var $ = function (id) { return document.getElementById(id); };
+  var stock = {
+    lire: function (k) { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { return null; } },
+    ecrire: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+
+  /* ---------- Lecture du catalogue (Google Sheet de Studio Devis) ---------- */
+  function csv(t) {
+    var lignes = [], l = [], c = '', q = false;
+    for (var i = 0; i < t.length; i++) {
+      var ch = t[i];
+      if (q) { if (ch === '"') { if (t[i + 1] === '"') { c += '"'; i++; } else q = false; } else c += ch; }
+      else if (ch === '"') q = true;
+      else if (ch === ',') { l.push(c); c = ''; }
+      else if (ch === '\n') { l.push(c); lignes.push(l); l = []; c = ''; }
+      else if (ch !== '\r') c += ch;
+    }
+    if (c !== '' || l.length) { l.push(c); lignes.push(l); }
+    var h = lignes.shift() || [];
+    return lignes.map(function (r) { var o = {}; h.forEach(function (k, j) { o[k.trim()] = (r[j] || '').trim(); }); return o; });
+  }
+  function col(o, re) { for (var k in o) if (re.test(k)) return o[k]; return ''; }
+
+  function photo(url, w) {
+    url = String(url || '').trim();
+    if (!url) return '';
+    var m = url.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]{20,})/) || url.match(/[?&]id=([\w-]{20,})/);
+    if (m) return 'https://lh3.googleusercontent.com/d/' + m[1] + '=w' + w;
+    if (/images\.pexels\.com/.test(url)) return url.split('?')[0] + '?auto=compress&cs=tinysrgb&fit=crop&w=' + w + '&h=' + Math.round(w * 0.75);
+    return /^https?:/.test(url) ? url : '';
+  }
+
+  function famille(e) {
+    var t = (e.type || '').toUpperCase(), m = (e.moment || '').toLowerCase();
+    if (/soir/.test(m)) return 'soir';
+    if (/DEMI/.test(t)) return 'demi';
+    if (/JOURN/.test(t)) return 'journee';
+    return 'activite';
+  }
+  var FAMILLES = [['tout', 'Toutes'], ['journee', 'Journées'], ['demi', 'Demi-journées'], ['activite', 'Activités'], ['soir', 'En soirée'], ['favela', 'Favelas'], ['nature', 'Nature'], ['mer', 'En mer']];
+  function theme(e, f) {
+    var s = (e.titre + ' ' + e.accroche + ' ' + e.court).toLowerCase();
+    if (f === 'favela') return /favela|vidigal|rocinha/.test(s);
+    if (f === 'nature') return /for[eê]t|randonn|tijuca|plage|sauvage|nature|mangrove/.test(s);
+    if (f === 'mer') return /bateau|cabotage|mer |ilha grande|baie/.test(s);
+    return f === 'tout' || famille(e) === f;
+  }
+
+  function construire(journees, combi) {
+    var liens = {};
+    combi.forEach(function (r) {
+      var code = col(r, /^code$/i).toUpperCase();
+      if (code) liens[code] = { page: col(r, /page/i), avec: col(r, /combin/i).toUpperCase().split(/[\s,;]+/).filter(Boolean) };
+    });
+    return journees.filter(function (r) {
+      return /^oui$/i.test(col(r, /^active$/i)) && !/TRANSFERT/i.test(col(r, /^type$/i)) && col(r, /^code$/i) && col(r, /^titre$/i);
+    }).map(function (r) {
+      var code = col(r, /^code$/i).toUpperCase(), l = liens[code] || {};
+      var page = String(l.page || '').trim();
+      if (page && page.charAt(0) === '/') page = SITE + page;
+      return {
+        code: code, type: col(r, /^type$/i), titre: col(r, /^titre$/i), accroche: col(r, /^accroche/i),
+        court: col(r, /description courte/i), long: col(r, /description longue/i), duree: col(r, /^dur/i),
+        horaire: col(r, /^horaire/i), moment: col(r, /^moment/i),
+        photo: col(r, /^photo \(lien/i) || col(r, /^photo 2/i), photo2: col(r, /^photo 2/i),
+        page: /^https?:/.test(page) ? page : '', avec: l.avec || []
+      };
+    });
+  }
+
+  function charger() {
+    var cache = stock.lire(CLE_CACHE);
+    if (cache && cache.exp && cache.exp.length) { EXP = cache.exp; pret(); }
+    else squelettes();
+    var get = function (onglet) { return fetch(CATALOGUE + encodeURIComponent(onglet), { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); }); };
+    Promise.all([get('Journées'), get('Combiné avec').catch(function () { return ''; })]).then(function (t) {
+      var exp = construire(csv(t[0]), t[1] ? csv(t[1]) : []);
+      if (!exp.length) throw new Error('vide');
+      var change = JSON.stringify(exp) !== JSON.stringify(EXP);
+      EXP = exp; stock.ecrire(CLE_CACHE, { le: Date.now(), exp: exp });
+      if (change) pret();
+    }).catch(function () {
+      if (!EXP.length) $('grille').innerHTML = '<p>Le catalogue ne se charge pas pour le moment. Écrivez-moi directement sur <a href="https://wa.me/' + WHATSAPP + '">WhatsApp</a>, je vous réponds vite.</p>';
+    });
+  }
+
+  /* ---------- Affichage ---------- */
+  function squelettes() {
+    var h = '';
+    for (var i = 0; i < 6; i++) h += '<div class="carte squelette"><div class="photo"></div><div class="corps"><div style="width:70%"></div><div style="width:45%"></div><div></div><div style="width:85%"></div></div></div>';
+    $('grille').innerHTML = h;
+  }
+
+  function pret() {
+    PAR_CODE = {}; EXP.forEach(function (e) { PAR_CODE[e.code] = e; });
+    CHOIX = CHOIX.filter(function (c) { return PAR_CODE[c]; });
+    filtres(); cartes(); majChoix();
+  }
+
+  function filtres() {
+    var dispo = FAMILLES.filter(function (f) { return f[0] === 'tout' || EXP.some(function (e) { return theme(e, f[0]); }); });
+    $('filtres').innerHTML = dispo.map(function (f) { return '<button class="filtre" type="button" data-f="' + f[0] + '" aria-pressed="' + (FILTRE === f[0]) + '">' + f[1] + '</button>'; }).join('');
+  }
+
+  var ICO_PLUS = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>';
+  var ICO_OK = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  var LIB_TYPE = { 'JOURNÉE': 'Journée', 'DEMI-JOURNÉE': 'Demi-journée', 'ACTIVITÉ': 'Activité' };
+
+  function cartes() {
+    var visibles = EXP.filter(function (e) { return theme(e, FILTRE); });
+    $('grille').innerHTML = visibles.map(function (e, i) {
+      var p = photo(e.photo, 720), p2 = photo(e.photo, 1080), choisi = CHOIX.indexOf(e.code) >= 0;
+      var infos = [e.duree && (/^\d+$/.test(e.duree) ? e.duree + ' h' : e.duree), e.moment, e.horaire].filter(Boolean);
+      var avec = e.avec.filter(function (c) { return PAR_CODE[c] && c !== e.code; });
+      return '<article class="carte' + (choisi ? ' choisie' : '') + '" id="' + esc(e.code) + '" data-code="' + esc(e.code) + '">'
+        + '<div class="photo">' + (p ? '<img src="' + esc(p) + '" srcset="' + esc(p) + ' 720w, ' + esc(p2) + ' 1080w" sizes="(max-width:640px) 100vw, 360px" alt="' + esc(e.titre) + '" ' + (i < 3 ? 'fetchpriority="high"' : 'loading="lazy"') + ' decoding="async" data-p2="' + esc(photo(e.photo2, 720)) + '">' : '')
+        + '<div class="vide"' + (p ? ' hidden' : '') + '>' + esc(e.titre) + '</div>'
+        + '<span class="etiq">' + esc(LIB_TYPE[(e.type || '').toUpperCase()] || e.type) + '</span><span class="coche" aria-hidden="true">' + ICO_OK + '</span></div>'
+        + '<div class="corps"><h2>' + esc(e.titre) + '</h2>'
+        + (e.accroche ? '<p class="accroche">' + esc(e.accroche) + '</p>' : '')
+        + (infos.length ? '<div class="infos">' + infos.map(function (x) { return '<span>' + esc(x) + '</span>'; }).join('') + '</div>' : '')
+        + (e.court ? '<p class="desc">' + esc(e.court) + '</p>' : '')
+        + (e.long && e.long !== e.court ? '<p class="long">' + esc(e.long) + '</p><button class="plus" type="button" data-plus aria-expanded="false">Lire le détail</button>' : '')
+        + (avec.length ? '<p class="combi">Souvent combiné avec ' + avec.map(function (c) { return '<button type="button" data-voir="' + esc(c) + '">' + esc(PAR_CODE[c].titre) + '</button>'; }).join(' ') + '</p>' : '')
+        + '<div class="actions"><button class="btn prim" type="button" data-ajout aria-pressed="' + choisi + '">' + (choisi ? ICO_OK + 'Ajoutée' : ICO_PLUS + 'Ajouter') + '</button>'
+        + (e.page ? '<a class="btn" href="' + esc(e.page) + '">En savoir plus</a>' : '') + '</div>'
+        + '</div></article>';
+    }).join('');
+    Array.prototype.forEach.call($('grille').querySelectorAll('img'), function (im) {
+      var ok = function () { im.classList.add('ok'); };
+      if (im.complete && im.naturalWidth) ok(); else im.addEventListener('load', ok);
+      im.addEventListener('error', function () {
+        var p2 = im.getAttribute('data-p2');
+        if (p2 && im.src !== p2) { im.removeAttribute('srcset'); im.src = p2; im.setAttribute('data-p2', ''); return; }
+        var v = im.parentNode && im.parentNode.querySelector('.vide');
+        if (v) v.hidden = false;
+        im.remove();
+      });
+    });
+  }
+
+  function basculer(code) {
+    var i = CHOIX.indexOf(code);
+    if (i >= 0) CHOIX.splice(i, 1); else CHOIX.push(code);
+    stock.ecrire(CLE_CHOIX, CHOIX);
+    var c = document.querySelector('.carte[data-code="' + code + '"]');
+    if (c) {
+      var on = CHOIX.indexOf(code) >= 0, b = c.querySelector('[data-ajout]');
+      c.classList.toggle('choisie', on);
+      b.setAttribute('aria-pressed', on); b.innerHTML = on ? ICO_OK + 'Ajoutée' : ICO_PLUS + 'Ajouter';
+    }
+    majChoix();
+  }
+
+  function majChoix() {
+    var n = CHOIX.length;
+    $('nbBarre').textContent = n; $('libBarre').textContent = n > 1 ? 'expériences choisies' : 'expérience choisie';
+    $('nbHaut').textContent = n ? '(' + n + ')' : '';
+    $('choixListe').innerHTML = n ? CHOIX.map(function (c) { return '<span class="puce">' + esc(PAR_CODE[c].titre) + '<button type="button" data-retirer="' + esc(c) + '" aria-label="Retirer ' + esc(PAR_CODE[c].titre) + '">×</button></span>'; }).join('')
+      : '<p class="aucun">Aucune expérience choisie pour l’instant : ajoutez-en depuis les cartes, ou décrivez simplement vos envies dans le message.</p>';
+    barre();
+  }
+
+  var formVisible = false;
+  function barre() { $('barre').classList.toggle('visible', CHOIX.length > 0 && !formVisible && !$('merci').offsetParent); }
+  if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { formVisible = es[0].isIntersecting; barre(); }, { threshold: 0.05 }).observe($('demande'));
+
+  function voir(code) {
+    if (!theme(PAR_CODE[code], FILTRE)) { FILTRE = 'tout'; filtres(); cartes(); }
+    var c = $(code); if (!c) return;
+    c.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    c.classList.remove('eclair'); void c.offsetWidth; c.classList.add('eclair');
+  }
+
+  document.addEventListener('click', function (ev) {
+    var t = ev.target.closest('button'); if (!t) return;
+    if (t.classList.contains('filtre')) { FILTRE = t.getAttribute('data-f'); filtres(); cartes(); return; }
+    var carte = t.closest('.carte');
+    if (t.hasAttribute('data-ajout')) basculer(carte.getAttribute('data-code'));
+    else if (t.hasAttribute('data-plus')) { var o = carte.classList.toggle('ouverte'); t.textContent = o ? 'Masquer le détail' : 'Lire le détail'; t.setAttribute('aria-expanded', o); }
+    else if (t.hasAttribute('data-voir')) voir(t.getAttribute('data-voir'));
+    else if (t.hasAttribute('data-retirer')) basculer(t.getAttribute('data-retirer'));
+  });
+
+  /* ---------- Formulaire ---------- */
+  var form = $('form');
+  Array.prototype.forEach.call(document.querySelectorAll('.compteur'), function (cp) {
+    var out = cp.querySelector('output'), min = +cp.getAttribute('data-min'), b = cp.querySelectorAll('button');
+    b[0].onclick = function () { out.value = out.textContent = Math.max(min, +out.textContent - 1); majEnfants(); brouillon(); };
+    b[1].onclick = function () { out.value = out.textContent = Math.min(30, +out.textContent + 1); majEnfants(); brouillon(); };
+  });
+  function majEnfants() { $('champAges').classList.toggle('cache', +$('enfants').textContent === 0); }
+  $('transferts').addEventListener('change', function (ev) {
+    var cases = this.querySelectorAll('input');
+    if (ev.target.hasAttribute('data-non') && ev.target.checked) { cases[0].checked = cases[1].checked = false; }
+    else if (ev.target.checked) cases[2].checked = false;
+    brouillon();
+  });
+
+  var aujourdhui = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+  $('arrivee').min = aujourdhui; $('depart').min = aujourdhui;
+  $('arrivee').addEventListener('change', function () { if (this.value) { $('depart').min = this.value; if ($('depart').value && $('depart').value <= this.value) $('depart').value = ''; } });
+
+  function formaterTel(v) {
+    v = String(v || '').trim();
+    var plus = /^\s*(\+|00)/.test(v), d = v.replace(/\D/g, '').replace(/^00/, '');
+    if (!d) return '';
+    if (!plus && /^0[67]\d{8}$/.test(d)) d = '33' + d.slice(1);   // portable français saisi sans indicatif
+    return '+' + d;
+  }
+
+  var CHAMPS = ['prenom', 'nom', 'email', 'whatsapp', 'pays', 'arrivee', 'depart', 'ages', 'heberg', 'message'];
+  function brouillon() {
+    var b = {}; CHAMPS.forEach(function (k) { b[k] = $(k).value; });
+    b.adultes = $('adultes').textContent; b.enfants = $('enfants').textContent;
+    b.transferts = Array.prototype.map.call($('transferts').querySelectorAll('input'), function (x) { return x.checked; });
+    stock.ecrire(CLE_BROUILLON, b);
+  }
+  function restaurer() {
+    var b = stock.lire(CLE_BROUILLON); if (!b) return;
+    CHAMPS.forEach(function (k) { if (b[k]) $(k).value = b[k]; });
+    if (b.adultes) $('adultes').textContent = b.adultes;
+    if (b.enfants) $('enfants').textContent = b.enfants;
+    if (b.transferts) Array.prototype.forEach.call($('transferts').querySelectorAll('input'), function (x, i) { x.checked = !!b.transferts[i]; });
+    if ($('arrivee').value && $('arrivee').value < aujourdhui) { $('arrivee').value = ''; $('depart').value = ''; }
+    majEnfants();
+  }
+  form.addEventListener('input', function (ev) { var c = ev.target.closest('.champ'); if (c) c.classList.remove('err'); brouillon(); });
+
+  function erreur(id, oui) { $(id).closest('.champ').classList.toggle('err', !!oui); return !oui; }
+  function valider() {
+    var ok = true;
+    ok = erreur('prenom', !$('prenom').value.trim()) && ok;
+    ok = erreur('nom', !$('nom').value.trim()) && ok;
+    ok = erreur('email', !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($('email').value.trim())) && ok;
+    ok = erreur('whatsapp', formaterTel($('whatsapp').value).replace(/\D/g, '').length < 8) && ok;
+    ok = erreur('arrivee', !$('arrivee').value) && ok;
+    ok = erreur('depart', !$('depart').value || ($('arrivee').value && $('depart').value < $('arrivee').value)) && ok;
+    if (+$('enfants').textContent > 0) ok = erreur('ages', !$('ages').value.trim()) && ok;
+    if (!ok) { var e = form.querySelector('.champ.err input, .champ.err textarea'); if (e) { e.focus({ preventScroll: true }); e.scrollIntoView({ behavior: 'smooth', block: 'center' }); } }
+    return ok;
+  }
+
+  function donnees() {
+    var tr = Array.prototype.filter.call($('transferts').querySelectorAll('input'), function (x) { return x.checked; }).map(function (x) { return x.value; });
+    var choix = CHOIX.map(function (c) { return PAR_CODE[c].titre + ' [' + c + ']'; });
+    var msg = $('message').value.trim();
+    var resume = (choix.length ? 'Expériences choisies sur la vitrine : ' + CHOIX.join(' ') : 'Aucune expérience cochée sur la vitrine');
+    return {
+      source: 'Vitrine Expériences',
+      prenom: $('prenom').value.trim(), nom: $('nom').value.trim(), email: $('email').value.trim(),
+      whatsapp: formaterTel($('whatsapp').value), pays: $('pays').value.trim(),
+      date_arrivee: $('arrivee').value, date_depart: $('depart').value,
+      adultes: $('adultes').textContent, enfants: $('enfants').textContent,
+      age_s_des_enfants: +$('enfants').textContent > 0 ? $('ages').value.trim() : '',
+      vos_choix_sur_rio: choix.join(', '),
+      hebergement: $('heberg').value.trim(),
+      transferts: tr.join(', ') || 'Non précisé',
+      message: (msg ? msg + '\n\n' : '') + resume,
+      site_web: $('site_web').value,
+      duree_saisie: Math.round((Date.now() - OUVERT_LE) / 1000)
+    };
+  }
+
+  function texteWhatsApp(d) {
+    var fr = function (x) { return String(x).split('-').reverse().join('/'); };
+    return ['Bonjour, je souhaite recevoir un programme pour mon séjour à Rio.',
+      'Nom : ' + d.prenom + ' ' + d.nom, 'Dates : du ' + fr(d.date_arrivee) + ' au ' + fr(d.date_depart),
+      'Voyageurs : ' + d.adultes + ' adulte(s)' + (+d.enfants ? ', ' + d.enfants + ' enfant(s) (' + d.age_s_des_enfants + ')' : ''),
+      d.vos_choix_sur_rio ? 'Expériences : ' + d.vos_choix_sur_rio : '', 'Transferts : ' + d.transferts,
+      d.message].filter(Boolean).join('\n');
+  }
+
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    $('alerte').className = 'alerte';
+    if (!valider()) return;
+    var d = donnees(), bt = $('envoyer');
+    bt.disabled = true; bt.textContent = 'Envoi en cours…';
+    var ctrl = window.AbortController ? new AbortController() : null, minuterie = setTimeout(function () { if (ctrl) ctrl.abort(); }, 25000);
+    fetch(ENVOI, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(d), signal: ctrl && ctrl.signal })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok || !j.ok) throw new Error(j.erreur || r.status); }); })
+      .then(function () {
+        clearTimeout(minuterie);
+        $('merciTitre').textContent = 'Merci ' + d.prenom + ' !';
+        $('zoneForm').classList.add('cache'); $('merci').classList.remove('cache');
+        CHOIX = []; stock.ecrire(CLE_CHOIX, []); stock.ecrire(CLE_BROUILLON, null);
+        cartes(); majChoix();
+        $('demande').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      })
+      .catch(function () {
+        clearTimeout(minuterie);
+        bt.disabled = false; bt.textContent = 'Envoyer ma demande';
+        var a = $('alerte'); a.className = 'alerte err';
+        a.innerHTML = 'Oups, la demande n’est pas partie. Réessayez dans un instant, ou envoyez-la directement sur WhatsApp : <a href="https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(texteWhatsApp(d)) + '" target="_blank" rel="noopener"><b>envoyer par WhatsApp</b></a>.';
+      });
+  });
+
+  /* ---------- Démarrage ---------- */
+  var q = new URLSearchParams(location.search);
+  CHOIX = (stock.lire(CLE_CHOIX) || []).slice();
+  (q.get('choix') || '').toUpperCase().split(/[\s,;]+/).forEach(function (c) { if (c && CHOIX.indexOf(c) < 0) CHOIX.push(c); });
+  restaurer();
+  charger();
+  if (location.hash.length > 1 && location.hash !== '#demande') setTimeout(function () { var c = decodeURIComponent(location.hash.slice(1)).toUpperCase(); if (PAR_CODE[c]) voir(c); }, 600);
+})();
+</script>
+</body>
+</html>
