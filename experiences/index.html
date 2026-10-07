@@ -257,7 +257,7 @@
             <div class="champ"><label for="nom">Nom <i>*</i></label><input id="nom" name="nom" autocomplete="family-name" required><span class="msg">Indiquez votre nom.</span></div>
             <div class="champ"><label for="email">E-mail <i>*</i></label><input id="email" name="email" type="email" inputmode="email" autocomplete="email" required><span class="msg">Cette adresse e-mail ne semble pas valide.</span></div>
             <div class="champ"><label for="whatsapp">WhatsApp <i>*</i></label><input id="whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="+33 6 12 34 56 78" required><span class="msg">Indiquez votre numéro avec l’indicatif (+33, +32…).</span></div>
-            <div class="champ large"><label for="pays">Pays de résidence</label><input id="pays" name="pays" list="dlPays" autocomplete="country-name"><datalist id="dlPays"><option value="France"><option value="Belgique"><option value="Suisse"><option value="Canada"><option value="Luxembourg"></datalist></div>
+            <div class="champ"><label for="pays">Pays de résidence</label><input id="pays" name="pays" list="dlPays" autocomplete="country-name"><datalist id="dlPays"><option value="France"><option value="Belgique"><option value="Suisse"><option value="Canada"><option value="Luxembourg"></datalist></div>
           </div>
         </fieldset>
 
@@ -268,7 +268,7 @@
             <div class="champ"><label for="depart">Départ <i>*</i></label><input id="depart" name="date_depart" type="date" required><span class="msg">Le départ doit être après l’arrivée.</span></div>
             <div class="champ"><label id="lAdultes">Adultes <i>*</i></label><div class="compteur" data-min="1" aria-labelledby="lAdultes"><button type="button" aria-label="Un adulte de moins">−</button><output id="adultes">2</output><button type="button" aria-label="Un adulte de plus">+</button></div></div>
             <div class="champ"><label id="lEnfants">Enfants</label><div class="compteur" data-min="0" aria-labelledby="lEnfants"><button type="button" aria-label="Un enfant de moins">−</button><output id="enfants">0</output><button type="button" aria-label="Un enfant de plus">+</button></div></div>
-            <div class="champ large cache" id="champAges"><label for="ages">Âge des enfants <i>*</i></label><input id="ages" name="age_s_des_enfants" placeholder="Ex. : 4 et 9 ans"><span class="msg">Indiquez l’âge de chaque enfant.</span></div>
+            <div class="champ large" id="champAges"><label for="ages">Âges (enfants, ados, adultes de 60 ans et +) <i id="agesOblig" class="cache">*</i></label><input id="ages" name="age_s_des_enfants" placeholder="Ex. : enfants de 4 et 9 ans, un adulte de 65 ans"><span class="aide">Certains sites ont des tarifs réduits selon l’âge : ça me permet de vous proposer le bon prix.</span><span class="msg">Indiquez l’âge de chaque enfant.</span></div>
             <div class="champ large"><label for="heberg">Hébergement (quartier ou hôtel, si vous le savez)</label><input id="heberg" name="hebergement" placeholder="Ex. : Copacabana, Ipanema…"></div>
           </div>
         </fieldset>
@@ -646,7 +646,7 @@
     b[0].onclick = function () { out.value = out.textContent = Math.max(min, +out.textContent - 1); majEnfants(); brouillon(); };
     b[1].onclick = function () { out.value = out.textContent = Math.min(30, +out.textContent + 1); majEnfants(); brouillon(); };
   });
-  function majEnfants() { $('champAges').classList.toggle('cache', +$('enfants').textContent === 0); }
+  function majEnfants() { $('agesOblig').classList.toggle('cache', +$('enfants').textContent === 0); }
   $('transferts').addEventListener('change', function (ev) {
     var cases = this.querySelectorAll('input');
     if (ev.target.hasAttribute('data-non') && ev.target.checked) { cases[0].checked = cases[1].checked = false; }
@@ -711,7 +711,7 @@
       whatsapp: formaterTel($('whatsapp').value), pays: $('pays').value.trim(),
       date_arrivee: $('arrivee').value, date_depart: $('depart').value,
       adultes: $('adultes').textContent, enfants: $('enfants').textContent,
-      age_s_des_enfants: +$('enfants').textContent > 0 ? $('ages').value.trim() : '',
+      age_s_des_enfants: $('ages').value.trim(),
       vos_choix_sur_rio: choix.join(', '),
       hebergement: $('heberg').value.trim(),
       transferts: tr.join(', ') || 'Non précisé',
@@ -725,7 +725,8 @@
     var fr = function (x) { return String(x).split('-').reverse().join('/'); };
     return ['Bonjour, je souhaite recevoir un programme pour mon séjour à Rio.',
       'Nom : ' + d.prenom + ' ' + d.nom, 'Dates : du ' + fr(d.date_arrivee) + ' au ' + fr(d.date_depart),
-      'Voyageurs : ' + d.adultes + ' adulte(s)' + (+d.enfants ? ', ' + d.enfants + ' enfant(s) (' + d.age_s_des_enfants + ')' : ''),
+      'Voyageurs : ' + d.adultes + ' adulte(s)' + (+d.enfants ? ', ' + d.enfants + ' enfant(s)' : ''),
+      d.age_s_des_enfants ? 'Âges : ' + d.age_s_des_enfants : '',
       d.vos_choix_sur_rio ? 'Expériences : ' + d.vos_choix_sur_rio : '', 'Transferts : ' + d.transferts,
       d.message].filter(Boolean).join('\n');
   }
