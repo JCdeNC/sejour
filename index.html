@@ -21,15 +21,62 @@
 <style>
   html,body{margin:0;height:100%;background:#F4EFE8;font-family:Poppins,system-ui,-apple-system,sans-serif;color:#350A07}
   iframe{position:fixed;inset:0;width:100%;height:100%;border:0;display:block}
-  .msg{max-width:420px;margin:30vh auto 0;padding:0 24px;text-align:center;font-size:15px;line-height:1.6}
   .cache{display:none}
+  /* écran d'attente : icône, Kombi qui roule, messages */
+  #attente{position:fixed;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:24px;text-align:center;background:#F4EFE8;transition:opacity .5s ease}
+  #attente.fini{opacity:0;pointer-events:none}
+  #attente .icone{width:96px;height:96px;border-radius:22px;box-shadow:0 10px 28px rgba(53,10,7,.18)}
+  #attente .titre{margin:4px 0 0;font-weight:600;font-size:17px}
+  #attente .msg{margin:0;max-width:340px;font-size:14.5px;line-height:1.55;color:#6E5B55;min-height:2.6em;transition:opacity .4s}
+  #attente a{color:#A34C0C;font-weight:600}
+  .route{position:relative;width:min(300px,80vw);height:96px;overflow:hidden}
+  .route svg.kombi{position:absolute;left:50%;bottom:16px;width:150px;margin-left:-75px;animation:secousse .45s ease-in-out infinite alternate}
+  .route .sol{position:absolute;left:0;right:0;bottom:12px;height:3px;border-radius:3px;background:#E3D6C8}
+  .route .tirets{position:absolute;left:0;bottom:5px;width:200%;height:3px;background:repeating-linear-gradient(90deg,#C9B8A6 0 22px,transparent 22px 44px);animation:defile .7s linear infinite}
+  .roue{transform-box:fill-box;transform-origin:center;animation:tourne .55s linear infinite}
+  .fumee{transform-box:fill-box;transform-origin:center;animation:fumee 1.2s ease-out infinite}
+  .fumee.f2{animation-delay:.6s}
+  @keyframes secousse{from{transform:translateY(0)}to{transform:translateY(-2px)}}
+  @keyframes defile{from{transform:translateX(0)}to{transform:translateX(-44px)}}
+  @keyframes tourne{to{transform:rotate(360deg)}}
+  @keyframes fumee{0%{opacity:.55;transform:translate(0,0) scale(.6)}100%{opacity:0;transform:translate(-18px,-8px) scale(1.5)}}
+  @media (prefers-reduced-motion: reduce){.route svg.kombi,.route .tirets,.roue,.fumee{animation:none}}
 </style>
 </head>
 <body>
 <!-- Devis en ligne de Studio Devis, en plein écran sans le bandeau Google.
-     Lien envoyé au client : https://sejour.vidigalriotour.com/?VRT-2026-2302-3.XXXXXXXXXX (ancien format ?n=…&t=… accepté) -->
+     Lien envoyé au client : https://sejour.vidigalriotour.com/?VRT-2026-2302-3.XXXXXXXXXX (ancien format ?n=…&t=… accepté)
+     Pendant le chargement (parfois long) : icône Vidigal RIO Tour et Kombi qui roule. -->
+<div id="attente" role="status" aria-live="polite">
+  <img class="icone" src="https://jcdenc.github.io/studio-devis/apple-touch-icon.png" alt="Vidigal RIO Tour">
+  <div class="route" aria-hidden="true">
+    <svg class="kombi" viewBox="0 0 160 92" xmlns="http://www.w3.org/2000/svg">
+      <defs><clipPath id="carrosserie"><rect x="12" y="16" width="136" height="54" rx="16"/></clipPath></defs>
+      <circle class="fumee" cx="8" cy="62" r="5" fill="#C9B8A6"/>
+      <circle class="fumee f2" cx="8" cy="62" r="5" fill="#C9B8A6"/>
+      <g clip-path="url(#carrosserie)">
+        <rect x="12" y="16" width="136" height="54" fill="#EE8938"/>
+        <rect x="12" y="16" width="136" height="27" fill="#FFF8F0"/>
+        <path d="M128 43 L148 30 L148 43 Z" fill="#EE8938"/>
+      </g>
+      <rect x="12" y="16" width="136" height="54" rx="16" fill="none" stroke="#350A07" stroke-width="2.5"/>
+      <rect x="22" y="22" width="22" height="15" rx="4" fill="#5B8FB9" stroke="#350A07" stroke-width="2"/>
+      <rect x="50" y="22" width="22" height="15" rx="4" fill="#5B8FB9" stroke="#350A07" stroke-width="2"/>
+      <rect x="78" y="22" width="22" height="15" rx="4" fill="#5B8FB9" stroke="#350A07" stroke-width="2"/>
+      <rect x="106" y="22" width="26" height="15" rx="4" fill="#5B8FB9" stroke="#350A07" stroke-width="2"/>
+      <line x1="76" y1="43" x2="76" y2="66" stroke="#350A07" stroke-width="1.6" opacity=".55"/>
+      <circle cx="146" cy="53" r="3.6" fill="#FFE7A3" stroke="#350A07" stroke-width="1.6"/>
+      <rect x="140" y="62" width="12" height="4" rx="2" fill="#B9B4AE"/>
+      <rect x="8" y="62" width="10" height="4" rx="2" fill="#B9B4AE"/>
+      <g class="roue"><circle cx="42" cy="72" r="12" fill="#350A07"/><circle cx="42" cy="72" r="5" fill="#E3D6C8"/><path d="M42 61 L42 83 M31 72 L53 72" stroke="#E3D6C8" stroke-width="2"/></g>
+      <g class="roue"><circle cx="120" cy="72" r="12" fill="#350A07"/><circle cx="120" cy="72" r="5" fill="#E3D6C8"/><path d="M120 61 L120 83 M109 72 L131 72" stroke="#E3D6C8" stroke-width="2"/></g>
+    </svg>
+    <div class="sol"></div><div class="tirets"></div>
+  </div>
+  <p class="titre">Votre séjour à Rio arrive…</p>
+  <p class="msg" id="msg">Ouverture de votre devis</p>
+</div>
 <iframe id="devis" class="cache" title="Votre devis Vidigal RIO Tour" allow="clipboard-write"></iframe>
-<p class="msg" id="msg">Ouverture de votre devis…</p>
 <script>
   var APP = 'https://script.google.com/macros/s/AKfycbxeyKjx23vcqD-TznZmXY7iJRazkMO6igeKWf1zziFY--8cTFnFez0k9Uw1tJbNmD6KFw/exec';
   var q = new URLSearchParams(location.search), n = q.get('n') || q.get('devis'), t = q.get('t');
@@ -37,12 +84,27 @@
     var m = decodeURIComponent(location.search.slice(1) || location.hash.slice(1)).match(/^([A-Za-z0-9-]+)\.([\w-]{10,})$/);
     if (m) { n = m[1]; t = m[2]; }
   }
+  var msg = document.getElementById('msg'), attente = document.getElementById('attente');
+  function dire(txt) { msg.style.opacity = 0; setTimeout(function () { msg.innerHTML = txt; msg.style.opacity = 1; }, 400); }
   if (n && t) {
-    var f = document.getElementById('devis');
-    f.src = APP + '?n=' + encodeURIComponent(n) + '&t=' + encodeURIComponent(t);
-    f.onload = function () { document.getElementById('msg').classList.add('cache'); f.classList.remove('cache'); };
+    var adresse = APP + '?n=' + encodeURIComponent(n) + '&t=' + encodeURIComponent(t);
+    var f = document.getElementById('devis'), pret = false;
+    // messages qui changent si le chargement dure
+    var etapes = [[4000, 'Nous préparons votre programme, jour par jour'], [9000, 'Chargement des photos de vos expériences'],
+      [16000, 'Encore un petit instant, la Kombi arrive !'],
+      [30000, 'Le chargement prend plus de temps que d’habitude.<br>Si rien ne s’affiche, <a href="' + adresse + '">ouvrez le devis ici</a>.']];
+    etapes.forEach(function (e) { setTimeout(function () { if (!pret) dire(e[1]); }, e[0]); });
+    f.onload = function () {
+      pret = true;
+      f.classList.remove('cache');
+      attente.classList.add('fini');
+      setTimeout(function () { attente.classList.add('cache'); }, 600);
+    };
+    f.src = adresse;
   } else {
-    document.getElementById('msg').textContent = 'Ce lien n’est pas complet. Demandez un nouveau lien à votre guide.';
+    document.querySelector('#attente .titre').textContent = 'Lien incomplet';
+    msg.textContent = 'Ce lien n’est pas complet. Demandez un nouveau lien à votre guide.';
+    document.querySelector('#attente .route').classList.add('cache');
   }
 </script>
 </body>
