@@ -24,7 +24,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{--fond:#F4EFE8;--carte:#FFFFFF;--brun:#350A07;--orange:#EE8938;--orange-f:#C96A1E;--sable:#E8D9C8;--gris:#7A6A63;--ligne:#E3D6C8;--vert:#2F7D4F;--rayon:16px}
+  :root{--fond:#F4EFE8;--carte:#FFFFFF;--brun:#350A07;--orange:#EE8938;--orange-f:#C96A1E;--sable:#E8D9C8;--gris:#7A6A63;--ligne:#E3D6C8;--vert:#2F7D4F;--rouge:#C8102E;--rayon:16px}
   *{box-sizing:border-box}
   html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
   body{margin:0;background:var(--fond);color:var(--brun);font:15px/1.6 Poppins,system-ui,-apple-system,"Segoe UI",sans-serif}
@@ -96,7 +96,7 @@
   .une h2{font-size:clamp(22px,2.6vw,28px);margin-bottom:6px}
   .une .accroche{font-size:16px}
   .une .desc{font-size:15.5px}
-  .badge-une{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;background:var(--orange);color:#fff;font-weight:600;font-size:12px;letter-spacing:.6px;text-transform:uppercase;padding:5px 12px;border-radius:999px;margin:0 0 12px}
+  .badge-une{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;background:var(--rouge);color:#fff;font-weight:600;font-size:12px;letter-spacing:.6px;text-transform:uppercase;padding:5px 12px;border-radius:999px;margin:0 0 12px}
   .une .actions{flex-wrap:wrap}
   /* Fiche détaillée */
   .fiche{border:0;padding:0;border-radius:20px;width:min(680px,calc(100% - 32px));max-height:calc(100% - 48px);background:var(--carte);color:var(--brun);box-shadow:0 20px 60px rgba(0,0,0,.35);overflow:hidden}
@@ -209,6 +209,36 @@
     .champs{grid-template-columns:1fr}
     .champs.duo{grid-template-columns:1fr 1fr}
     .demande{padding:20px 14px;border-radius:18px;margin-left:-4px;margin-right:-4px}
+  }
+  /* Grands écrans (ordinateur) : page plus large, photos et textes plus grands */
+  @media (min-width:1200px){
+    .page{max-width:1440px;padding:0 40px}
+    .haut .page{height:64px}
+    .marque{font-size:19px}
+    .haut nav a{font-size:14.5px;padding:8px 16px}
+    .hero{min-height:420px;border-radius:26px}
+    .hero .txt{padding:44px 48px}
+    .hero h1{font-size:54px}
+    .hero p{font-size:18px;max-width:720px}
+    .etapes{gap:16px;margin-top:22px}
+    .etape{font-size:15px;padding:16px 20px}
+    .badge-off{font-size:14px}
+    #une{margin-top:26px}
+    .une .photo{min-height:480px}
+    .une .corps{padding:40px 44px}
+    .une h2{font-size:36px}
+    .une .accroche{font-size:18px}
+    .une .desc{font-size:17px}
+    .filtre{font-size:15px;padding:10px 18px}
+    .grille{gap:26px}
+    .rubrique{font-size:26px;margin-top:26px}
+    .corps h2{font-size:20px}
+    .accroche{font-size:15px}
+    .desc{font-size:15px}
+  }
+  @media (min-width:1800px){
+    .page{max-width:1680px}
+    .grille{grid-template-columns:repeat(4,1fr)}
   }
 </style>
 </head>
@@ -511,7 +541,7 @@
     var choisi = CHOIX.indexOf(e.code) >= 0, texte = e.court || e.long;
     return '<article class="une' + (choisi ? ' choisie' : '') + '" id="une-' + esc(e.code) + '" data-code="' + esc(e.code) + '">'
       + '<div class="photo" data-fiche style="cursor:pointer">' + imageHtml(e, true, true) + etiqHtml(e) + '</div>'
-      + '<div class="corps"><span class="badge-une">♥ ' + esc(e.rubrique) + '</span>'
+      + '<div class="corps"><span class="badge-une">♥ ' + esc(/coup de c/i.test(e.rubrique) ? 'Notre coup de cœur' : e.rubrique) + '</span>'
       + '<h2><button class="titre-btn" type="button" data-fiche>' + esc(e.titre) + '</button></h2>'
       + (e.accroche ? '<p class="accroche">' + esc(e.accroche) + '</p>' : '')
       + infosHtml(e)
