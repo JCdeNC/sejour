@@ -305,11 +305,15 @@
 
         <fieldset>
           <legend>Transferts privés</legend>
-          <p class="aide" style="margin:0 0 10px">Cochez les trajets qui vous intéressent.</p>
-          <div class="options" id="transferts">
-            <label class="option"><input type="checkbox" value="Transfert aéroport GIG → Rio de Janeiro [GIG-RIO]"><span>Aéroport GIG → Rio de Janeiro</span></label>
-            <label class="option"><input type="checkbox" value="Transfert Rio de Janeiro → aéroport GIG [RIO-GIG]"><span>Rio de Janeiro → aéroport GIG</span></label>
-            <label class="option"><input type="checkbox" value="Non merci" data-non><span>Non merci</span></label>
+          <div class="champ large"><label for="transfert" class="cache">Transferts privés</label>
+            <select id="transfert" name="transferts">
+              <option value="">Souhaitez-vous un transfert ?</option>
+              <option>Non merci</option>
+              <option>Aéroport → hébergement (arrivée)</option>
+              <option>Hébergement → aéroport (départ)</option>
+              <option>Aéroport à l’arrivée et au départ</option>
+              <option>Autre trajet (Ilha Grande, Paraty…), je précise dans le message</option>
+            </select>
           </div>
         </fieldset>
 
@@ -446,40 +450,17 @@
       .sort(function (a, b) { return a.rang - b.rang; });
   }
 
-  function trajets(journees) {
-    return journees.filter(function (r) {
-      return /^oui$/i.test(col(r, /^active$/i)) && /TRANSFERT/i.test(col(r, /^type$/i)) && col(r, /^code$/i) && col(r, /^titre$/i);
-    }).map(function (r, i) {
-      var t = col(r, /^titre$/i), l = t.replace(/^transfert\s+/i, '');
-      return { valeur: t + ' [' + col(r, /^code$/i).toUpperCase() + ']', libelle: l.charAt(0).toUpperCase() + l.slice(1),
-        rang: (/a[ée]roport/i.test(t) ? 0 : 1000) + i };
-    }).sort(function (a, b) { return a.rang - b.rang; });
-  }
-  function afficherTrajets(liste) {
-    if (!liste || !liste.length) return;
-    var coches = cochesTransferts();
-    $('transferts').innerHTML = liste.concat([{ valeur: 'Non merci', libelle: 'Non merci', non: true }]).map(function (t) {
-      return '<label class="option"><input type="checkbox" value="' + esc(t.valeur) + '"' + (t.non ? ' data-non' : '')
-        + (coches.indexOf(t.valeur) >= 0 ? ' checked' : '') + '><span>' + esc(t.libelle) + '</span></label>';
-    }).join('');
-  }
-  function cochesTransferts() {
-    return Array.prototype.filter.call($('transferts').querySelectorAll('input'), function (x) { return x.checked; }).map(function (x) { return x.value; });
-  }
-
   function charger() {
     var cache = stock.lire(CLE_CACHE);
     if (cache && cache.exp && cache.exp.length) { EXP = cache.exp; photosPretes.then(pret); }
     else squelettes();
-    if (cache && cache.tr) afficherTrajets(cache.tr);
     var get = function (onglet) { return fetch(CATALOGUE + encodeURIComponent(onglet), { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); }); };
     var facultatif = function (onglet) { return get(onglet).catch(function () { return ''; }); };
     Promise.all([get('Journées'), facultatif('Combiné avec'), facultatif('Options'), photosPretes]).then(function (t) {
-      var lignes = csv(t[0]), exp = construire(lignes, t[1] ? csv(t[1]) : [], t[2] ? csv(t[2]) : []), tr = trajets(lignes);
+      var exp = construire(csv(t[0]), t[1] ? csv(t[1]) : [], t[2] ? csv(t[2]) : []);
       if (!exp.length) throw new Error('vide');
-      afficherTrajets(tr);
       var change = JSON.stringify(exp) !== JSON.stringify(EXP);
-      EXP = exp; stock.ecrire(CLE_CACHE, { le: Date.now(), exp: exp, tr: tr });
+      EXP = exp; stock.ecrire(CLE_CACHE, { le: Date.now(), exp: exp });
       if (change) pret();
     }).catch(function () {
       if (!EXP.length) $('grille').innerHTML = '<p>Le catalogue ne se charge pas pour le moment. Écrivez-moi directement sur <a href="https://wa.me/' + WHATSAPP + '">WhatsApp</a>, je vous réponds vite.</p>';
@@ -701,11 +682,6 @@
     b[1].onclick = function () { out.value = out.textContent = Math.min(30, +out.textContent + 1); majEnfants(); brouillon(); };
   });
   function majEnfants() { $('agesOblig').classList.toggle('cache', +$('enfants').textContent === 0); }
-  $('transferts').addEventListener('change', function (ev) {
-    var non = ev.target.hasAttribute('data-non');
-    if (ev.target.checked) Array.prototype.forEach.call(this.querySelectorAll('input'), function (x) { if (x !== ev.target && x.hasAttribute('data-non') !== non) x.checked = false; });
-    brouillon();
-  });
 
   var aujourdhui = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
   $('arrivee').min = aujourdhui; $('depart').min = aujourdhui;
@@ -719,11 +695,10 @@
     return '+' + d;
   }
 
-  var CHAMPS = ['prenom', 'nom', 'email', 'whatsapp', 'pays', 'arrivee', 'depart', 'ages', 'heberg', 'message'];
+  var CHAMPS = ['prenom', 'nom', 'email', 'whatsapp', 'pays', 'arrivee', 'depart', 'ages', 'heberg', 'transfert', 'message'];
   function brouillon() {
     var b = {}; CHAMPS.forEach(function (k) { b[k] = $(k).value; });
     b.adultes = $('adultes').textContent; b.enfants = $('enfants').textContent;
-    b.trajets = cochesTransferts();
     stock.ecrire(CLE_BROUILLON, b);
   }
   function restaurer() {
@@ -731,7 +706,6 @@
     CHAMPS.forEach(function (k) { if (b[k]) $(k).value = b[k]; });
     if (b.adultes) $('adultes').textContent = b.adultes;
     if (b.enfants) $('enfants').textContent = b.enfants;
-    if (b.trajets) Array.prototype.forEach.call($('transferts').querySelectorAll('input'), function (x) { x.checked = b.trajets.indexOf(x.value) >= 0; });
     if ($('arrivee').value && $('arrivee').value < aujourdhui) { $('arrivee').value = ''; $('depart').value = ''; }
     majEnfants();
   }
@@ -752,7 +726,6 @@
   }
 
   function donnees() {
-    var tr = cochesTransferts();
     var choix = CHOIX.map(function (c) { return PAR_CODE[c].titre + ' [' + c + ']' + ((OPTS[c] || []).length ? ' : ' + OPTS[c].join(', ') : ''); });
     var msg = $('message').value.trim();
     var details = CHOIX.filter(function (c) { return (OPTS[c] || []).length; }).map(function (c) { return PAR_CODE[c].titre + ' : ' + OPTS[c].join(', '); });
@@ -767,7 +740,7 @@
       age_s_des_enfants: $('ages').value.trim(),
       vos_choix_sur_rio: choix.join(', '),
       hebergement: $('heberg').value.trim(),
-      transferts: tr.join(', ') || 'Non précisé',
+      transferts: $('transfert').value || 'Non précisé',
       message: (msg ? msg + '\n\n' : '') + resume,
       site_web: $('site_web').value,
       duree_saisie: Math.round((Date.now() - OUVERT_LE) / 1000)
