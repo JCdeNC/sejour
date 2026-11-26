@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Me payer · Jean-Christophe Turcon</title>
+<meta name="description" content="Virement, Wero, Wise ou Revolut : touchez une ligne pour copier.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Vidigal RIO Tour">
+<meta property="og:title" content="Me payer · Jean-Christophe Turcon">
+<meta property="og:description" content="Virement, Wero, Wise ou Revolut : touchez une ligne pour copier.">
+<meta property="og:image" content="https://sejour.vidigalriotour.com/payer/jc.jpg">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+<meta name="theme-color" content="#FBF4EA">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:#FBF4EA;color:#3B1206;font-family:Poppins,system-ui,-apple-system,Helvetica,sans-serif}
+.wrap{max-width:560px;margin:0 auto;padding:22px 16px 40px}
+.langs{display:flex;justify-content:flex-end;gap:6px;margin-bottom:6px}
+.langs button{border:0;background:transparent;font:inherit;font-size:13px;font-weight:600;color:#9A6A50;padding:6px 9px;border-radius:999px;cursor:pointer}
+.langs button.on{background:#FCE3CF;color:#3B1206}
+.head{display:flex;align-items:center;gap:18px}
+.face{width:96px;height:96px;border-radius:50%;background:#ddd url(jc.jpg) center 30%/cover;border:4px solid #fff;box-shadow:0 6px 18px rgba(120,60,20,.18);flex:none}
+.name{font-size:24px;font-weight:700;line-height:1.15;margin:0}
+.sub{display:flex;align-items:center;gap:8px;margin-top:6px;font-size:14px;color:#9A4A12;font-weight:500}
+.sub img{width:32px;height:32px}
+h1{font-size:21px;font-weight:600;margin:26px 0 6px;display:flex;align-items:center;gap:10px}
+h1:before{content:"";display:inline-block;width:6px;height:22px;background:#E8731C;border-radius:3px}
+.tip{margin:0 0 14px;font-size:13.5px;color:#8A5A40}
+.card{background:#fff;border-radius:22px;padding:4px 18px;box-shadow:0 4px 16px rgba(120,60,20,.08);margin-bottom:16px}
+.sec{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;font-weight:600;color:#E8731C;text-transform:uppercase;letter-spacing:1.4px;padding:16px 0 4px}
+.sec button{text-transform:none;letter-spacing:0;font:inherit;font-size:12.5px;font-weight:600;color:#9A4A12;background:#FCE3CF;border:0;border-radius:999px;padding:6px 12px;cursor:pointer}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 0;border-top:1px solid #F1E6D8;width:100%;background:none;border-left:0;border-right:0;border-bottom:0;font:inherit;color:inherit;text-align:left;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.sec+.row{border-top:0}
+.row:active .v{opacity:.55}
+.l{font-size:14.5px;color:#6B3A26;flex:none}
+.r{display:flex;align-items:center;gap:10px;min-width:0}
+.v{font-size:15.5px;font-weight:700;text-align:right;word-break:break-word}
+.v small{display:block;font-size:12px;font-weight:500;color:#9A6A50}
+.ic{flex:none;width:38px;height:38px;border-radius:12px;background:#FCE3CF;display:flex;align-items:center;justify-content:center}
+.ic svg{width:18px;height:18px;stroke:#B4521A;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.row.ok .ic{background:#D7F0DF}
+.row.ok .ic svg{stroke:#1E7F4F}
+.go{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0;border-top:1px solid #F1E6D8;text-decoration:none;color:inherit}
+.btn{flex:none;background:#E8731C;color:#fff;font-weight:600;font-size:14px;border-radius:999px;padding:10px 16px;white-space:nowrap}
+.foot{text-align:center;font-size:14px;color:#6B3A26;margin:18px 0 0}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:#3B1206;color:#fff;font-size:14px;font-weight:500;padding:11px 18px;border-radius:999px;opacity:0;transition:all .25s;pointer-events:none;white-space:nowrap}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="langs"><button data-l="fr">FR</button><button data-l="pt">PT</button><button data-l="en">EN</button></div>
+  <div class="head"><div class="face" role="img" aria-label="Jean-Christophe Turcon"></div>
+    <div><p class="name">Jean-Christophe<br>Turcon</p><div class="sub"><img src="logo.png" alt="">Vidigal Rio Tour</div></div></div>
+
+  <h1 data-t="title">Pour me payer</h1>
+  <p class="tip" data-t="tip">Touchez une ligne pour la copier.</p>
+
+  <div class="card">
+    <div class="sec"><span data-t="bank">Virement bancaire</span><button type="button" id="all" data-t="all">Tout copier</button></div>
+    <button type="button" class="row" data-c="Banque Populaire"><span class="l" data-t="bankname">Banque</span><span class="r"><span class="v">Banque Populaire</span><span class="ic"></span></span></button>
+    <button type="button" class="row" data-c="M JEAN CHRISTOPHE TURCON"><span class="l" data-t="holder">Titulaire</span><span class="r"><span class="v">M JEAN CHRISTOPHE TURCON</span><span class="ic"></span></span></button>
+    <button type="button" class="row" data-c="FR7614607000827121911727541"><span class="l">IBAN</span><span class="r"><span class="v">FR76 1460 7000 8271 2191 1727 541</span><span class="ic"></span></span></button>
+    <button type="button" class="row" data-c="CCBPFRPPMAR"><span class="l">BIC</span><span class="r"><span class="v">CCBPFRPPMAR</span><span class="ic"></span></span></button>
+  </div>
+
+  <div class="card">
+    <div class="sec"><span data-t="instant">Paiement instantané</span></div>
+    <button type="button" class="row" data-c="+33768096789"><span class="l">Wero</span><span class="r"><span class="v">+33 7 68 09 67 89<small data-t="wero">depuis l'appli de votre banque</small></span><span class="ic"></span></span></button>
+    <a class="go" href="https://wise.com/pay/me/jean-christophet11" target="_blank" rel="noopener"><span><span class="l">Wise</span><br><small style="color:#9A6A50">@jean-christophet11</small></span><span class="btn" data-t="pay">Payer</span></a>
+    <a class="go" href="https://revolut.me/jcturcon" target="_blank" rel="noopener"><span><span class="l">Revolut</span><br><small style="color:#9A6A50">@jcturcon</small></span><span class="btn" data-t="pay">Payer</span></a>
+  </div>
+
+  <p class="foot" data-t="ref">Merci d'indiquer votre <b>nom</b> en référence 🙏</p>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+(function(){
+  var T={
+    fr:{title:'Pour me payer',tip:'Touchez une ligne pour la copier.',bank:'Virement bancaire',all:'Tout copier',bankname:'Banque',holder:'Titulaire',instant:'Paiement instantané',wero:"depuis l'appli de votre banque",pay:'Payer',ref:"Merci d'indiquer votre <b>nom</b> en référence 🙏",copied:'Copié ✓',allc:'Coordonnées copiées ✓'},
+    pt:{title:'Para me pagar',tip:'Toque numa linha para copiar.',bank:'Transferência bancária',all:'Copiar tudo',bankname:'Banco',holder:'Titular',instant:'Pagamento instantâneo',wero:'pelo app do seu banco',pay:'Pagar',ref:'Indique o seu <b>nome</b> na referência, obrigado 🙏',copied:'Copiado ✓',allc:'Dados copiados ✓'},
+    en:{title:'How to pay me',tip:'Tap a line to copy it.',bank:'Bank transfer',all:'Copy all',bankname:'Bank',holder:'Account holder',instant:'Instant payment',wero:'from your banking app',pay:'Pay',ref:'Please add your <b>name</b> as reference 🙏',copied:'Copied ✓',allc:'Details copied ✓'}
+  };
+  var ICON='<svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>';
+  var OK='<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+  var lang='fr';
+  try{var q=(location.search.match(/[?&]l=(fr|pt|en)/)||[])[1];var n=(navigator.language||'fr').slice(0,2);lang=q||(T[n]?n:'en');}catch(e){}
+  function setLang(l){lang=l;document.documentElement.lang=l;
+    var els=document.querySelectorAll('[data-t]');for(var i=0;i<els.length;i++){els[i].innerHTML=T[l][els[i].getAttribute('data-t')];}
+    var b=document.querySelectorAll('.langs button');for(var j=0;j<b.length;j++){b[j].className=b[j].getAttribute('data-l')===l?'on':'';}
+  }
+  var toastT;function toast(m){var t=document.getElementById('toast');t.textContent=m;t.className='toast on';clearTimeout(toastT);toastT=setTimeout(function(){t.className='toast';},1600);}
+  function copy(txt,done){
+    function fb(){var a=document.createElement('textarea');a.value=txt;a.setAttribute('readonly','');a.style.position='fixed';a.style.opacity='0';document.body.appendChild(a);a.select();a.setSelectionRange(0,txt.length);try{document.execCommand('copy');}catch(e){}document.body.removeChild(a);done();}
+    if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(txt).then(done,fb);}else{fb();}
+  }
+  var rows=document.querySelectorAll('.row');
+  for(var i=0;i<rows.length;i++){(function(r){
+    r.querySelector('.ic').innerHTML=ICON;
+    r.onclick=function(){copy(r.getAttribute('data-c'),function(){
+      r.className='row ok';r.querySelector('.ic').innerHTML=OK;toast(T[lang].copied);
+      setTimeout(function(){r.className='row';r.querySelector('.ic').innerHTML=ICON;},1500);});};
+  })(rows[i]);}
+  document.getElementById('all').onclick=function(){
+    var L=T[lang];
+    copy(L.holder+' : M JEAN CHRISTOPHE TURCON\n'+L.bankname+' : Banque Populaire\nIBAN : FR76 1460 7000 8271 2191 1727 541\nBIC : CCBPFRPPMAR',function(){toast(L.allc);});
+  };
+  var lb=document.querySelectorAll('.langs button');for(var k=0;k<lb.length;k++){lb[k].onclick=function(){setLang(this.getAttribute('data-l'));};}
+  setLang(lang);
+})();
+</script>
+</body>
+</html>
