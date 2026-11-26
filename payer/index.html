@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<title>Me payer · Jean-Christophe Turcon</title>
+<title>Effectuer un virement · Vidigal RIO Tour</title>
 <meta name="description" content="Virement, Wero, Wise ou Revolut : touchez une ligne pour copier.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Vidigal RIO Tour">
-<meta property="og:title" content="Me payer · Jean-Christophe Turcon">
+<meta property="og:title" content="Effectuer un virement · Vidigal RIO Tour">
 <meta property="og:description" content="Virement, Wero, Wise ou Revolut : touchez une ligne pour copier.">
 <meta property="og:image" content="https://sejour.vidigalriotour.com/payer/jc.jpg">
 <link rel="icon" type="image/png" href="logo.png">
@@ -27,8 +27,8 @@ body{margin:0;background:#FBF4EA;color:#3B1206;font-family:Poppins,system-ui,-ap
 .head{display:flex;align-items:center;gap:18px}
 .face{width:96px;height:96px;border-radius:50%;background:#ddd url(jc.jpg) center 30%/cover;border:4px solid #fff;box-shadow:0 6px 18px rgba(120,60,20,.18);flex:none}
 .name{font-size:24px;font-weight:700;line-height:1.15;margin:0}
-.sub{display:flex;align-items:center;gap:8px;margin-top:6px;font-size:14px;color:#9A4A12;font-weight:500}
-.sub img{width:32px;height:32px}
+.sub{display:flex;align-items:center;gap:12px}
+.sub img{width:52px;height:52px;flex:none}
 h1{font-size:21px;font-weight:600;margin:26px 0 6px;display:flex;align-items:center;gap:10px}
 h1:before{content:"";display:inline-block;width:6px;height:22px;background:#E8731C;border-radius:3px}
 .tip{margin:0 0 14px;font-size:13.5px;color:#8A5A40}
@@ -56,10 +56,10 @@ h1:before{content:"";display:inline-block;width:6px;height:22px;background:#E873
 <body>
 <div class="wrap">
   <div class="langs"><button data-l="fr">FR</button><button data-l="pt">PT</button><button data-l="en">EN</button></div>
-  <div class="head"><div class="face" role="img" aria-label="Jean-Christophe Turcon"></div>
-    <div><p class="name">Jean-Christophe<br>Turcon</p><div class="sub"><img src="logo.png" alt="">Vidigal Rio Tour</div></div></div>
+  <div class="head"><div class="face" role="img" aria-label="Vidigal RIO Tour"></div>
+    <div class="sub"><img src="logo.png" alt=""><p class="name">Vidigal RIO Tour</p></div></div>
 
-  <h1 data-t="title">Pour me payer</h1>
+  <h1 data-t="title">Pour effectuer un virement</h1>
   <p class="tip" data-t="tip">Touchez une ligne pour la copier.</p>
 
   <div class="card">
@@ -82,9 +82,9 @@ h1:before{content:"";display:inline-block;width:6px;height:22px;background:#E873
 <script>
 (function(){
   var T={
-    fr:{title:'Pour me payer',tip:'Touchez une ligne pour la copier.',bank:'Virement bancaire',all:'Tout copier',bankname:'Banque',holder:'Titulaire',instant:'Paiement instantané',wero:"depuis l'appli de votre banque",pay:'Payer',copied:'Copié ✓',allc:'Coordonnées copiées ✓'},
-    pt:{title:'Para me pagar',tip:'Toque numa linha para copiar.',bank:'Transferência bancária',all:'Copiar tudo',bankname:'Banco',holder:'Titular',instant:'Pagamento instantâneo',wero:'pelo app do seu banco',pay:'Pagar',copied:'Copiado ✓',allc:'Dados copiados ✓'},
-    en:{title:'How to pay me',tip:'Tap a line to copy it.',bank:'Bank transfer',all:'Copy all',bankname:'Bank',holder:'Account holder',instant:'Instant payment',wero:'from your banking app',pay:'Pay',copied:'Copied ✓',allc:'Details copied ✓'}
+    fr:{title:'Pour effectuer un virement',tip:'Touchez une ligne pour la copier.',bank:'Virement bancaire',all:'Tout copier',bankname:'Banque',holder:'Titulaire',instant:'Paiement instantané',wero:"depuis l'appli de votre banque",pay:'Payer',copied:'Copié ✓',allc:'Coordonnées copiées ✓'},
+    pt:{title:'Para fazer uma transferência',tip:'Toque numa linha para copiar.',bank:'Transferência bancária',all:'Copiar tudo',bankname:'Banco',holder:'Titular',instant:'Pagamento instantâneo',wero:'pelo app do seu banco',pay:'Pagar',copied:'Copiado ✓',allc:'Dados copiados ✓'},
+    en:{title:'To make a payment',tip:'Tap a line to copy it.',bank:'Bank transfer',all:'Copy all',bankname:'Bank',holder:'Account holder',instant:'Instant payment',wero:'from your banking app',pay:'Pay',copied:'Copied ✓',allc:'Details copied ✓'}
   };
   var ICON='<svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>';
   var OK='<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
